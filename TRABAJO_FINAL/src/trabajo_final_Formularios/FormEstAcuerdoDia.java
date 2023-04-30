@@ -4,12 +4,12 @@ package trabajo_final_Formularios;
  *
  * @author Gutierrez Medina Anthony Kent  <U18100033@utp.edu.pe>
  */
-public class FormEstadistica extends javax.swing.JFrame {
+public class FormEstAcuerdoDia extends javax.swing.JFrame {
 
     /**
      * Creates new form FormPrincipal
      */
-    public FormEstadistica() {
+    public FormEstAcuerdoDia() {
         initComponents();
     }
 
@@ -27,14 +27,19 @@ public class FormEstadistica extends javax.swing.JFrame {
         jFrame3 = new javax.swing.JFrame();
         jFrame4 = new javax.swing.JFrame();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         BG = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
-        btnAcuerdoPorDia = new javax.swing.JButton();
-        btnEntidadesProced = new javax.swing.JButton();
-        btnAcuerdoProced = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btnAcuerdo = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        btnExportarCSV = new javax.swing.JButton();
+        btnExportarPDF = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -82,6 +87,19 @@ public class FormEstadistica extends javax.swing.JFrame {
 
         jLabel4.setText("jLabel4");
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
@@ -91,9 +109,9 @@ public class FormEstadistica extends javax.swing.JFrame {
         jLabel2.setText("Ministerio de Economia y Finanzas");
         BG.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 24)); // NOI18N
-        jLabel5.setText("Tipos de Estadísticas");
-        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
+        jLabel5.setText("Filtros");
+        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 70, -1, -1));
         BG.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
@@ -103,33 +121,62 @@ public class FormEstadistica extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+            .addGap(0, 1000, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
+        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 60));
 
-        btnAcuerdoPorDia.setText("Acuerdo Marco por Día");
-        BG.add(btnAcuerdoPorDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 310, -1));
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ACUERDO MARCO", "1", "2", "3", "4", "5", "6", "7", "8", "9", "...", "TOTAL GENERAL"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(0).setPreferredWidth(250);
+        }
 
-        btnEntidadesProced.setText("Compras Entidades/Proveedores por Procedimiento");
-        BG.add(btnEntidadesProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 310, -1));
+        BG.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 100, 820, 420));
 
-        btnAcuerdoProced.setText("Compras Acuerdo Marco/Entidad por Procedimiento");
-        BG.add(btnAcuerdoProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 310, -1));
+        btnAcuerdo.setText("Acuerdo Marco");
+        BG.add(btnAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 130, 125, -1));
+
+        jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
+        jLabel6.setText("Listado de Compras");
+        BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, -1, -1));
+
+        btnExportarCSV.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnExportarCSV.setText("Exportar CSV");
+        BG.add(btnExportarCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 470, 120, 50));
+
+        btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnExportarPDF.setText("Exportar PDF");
+        BG.add(btnExportarPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(860, 410, 120, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 995, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -152,30 +199,44 @@ public class FormEstadistica extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FormEstadistica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormEstAcuerdoDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FormEstadistica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormEstAcuerdoDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FormEstadistica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormEstAcuerdoDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FormEstadistica.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FormEstAcuerdoDia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormEstadistica().setVisible(true);
+                new FormEstAcuerdoDia().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
-    private javax.swing.JButton btnAcuerdoPorDia;
-    private javax.swing.JButton btnAcuerdoProced;
-    private javax.swing.JButton btnEntidadesProced;
+    private javax.swing.JButton btnAcuerdo;
+    private javax.swing.JButton btnExportarCSV;
+    private javax.swing.JButton btnExportarPDF;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
@@ -183,7 +244,12 @@ public class FormEstadistica extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     // End of variables declaration//GEN-END:variables
 }
