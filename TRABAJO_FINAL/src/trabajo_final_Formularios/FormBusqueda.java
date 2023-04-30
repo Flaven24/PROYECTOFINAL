@@ -44,21 +44,21 @@ public class FormBusqueda extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         jTextField4 = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
+        btnEstado = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
+        btnRUCEntidad = new javax.swing.JButton();
+        btnEntidad = new javax.swing.JButton();
+        btnRucProveedor = new javax.swing.JButton();
+        btnFormalizacion = new javax.swing.JButton();
+        btnAcuerdo = new javax.swing.JButton();
+        btnProcedimiento = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
+        btnExportarCSV = new javax.swing.JButton();
+        btnExportarPDF = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -178,8 +178,8 @@ public class FormBusqueda extends javax.swing.JFrame {
         BG.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 180, -1));
         BG.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 170, -1));
 
-        jButton1.setText("Estado Orden");
-        BG.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 125, -1));
+        btnEstado.setText("Estado Orden");
+        BG.add(btnEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 125, -1));
 
         jLabel7.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel7.setText("Acuerdo Marco");
@@ -204,38 +204,43 @@ public class FormBusqueda extends javax.swing.JFrame {
         jLabel10.setText("RUC Entidad");
         BG.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
-        jButton3.setText("RUC Entidad");
-        BG.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, 125, -1));
+        btnRUCEntidad.setText("RUC Entidad");
+        BG.add(btnRUCEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, 125, -1));
 
-        jButton4.setText("Entidad");
-        BG.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, 125, -1));
+        btnEntidad.setText("Entidad");
+        BG.add(btnEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, 125, -1));
 
-        jButton5.setText("RUC Proveedor");
-        BG.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 125, -1));
+        btnRucProveedor.setText("RUC Proveedor");
+        BG.add(btnRucProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 125, -1));
 
-        jButton6.setText("Formalización");
-        BG.add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 300, 125, -1));
+        btnFormalizacion.setText("Formalización");
+        BG.add(btnFormalizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 300, 125, -1));
 
-        jButton7.setText("Acuerdo Marco");
-        BG.add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, 125, -1));
+        btnAcuerdo.setText("Acuerdo Marco");
+        BG.add(btnAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, 125, -1));
 
-        jButton8.setText("Tipo Procedimiento");
-        BG.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 360, 125, -1));
+        btnProcedimiento.setText("Tipo Procedimiento");
+        BG.add(btnProcedimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 360, 125, -1));
 
         jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel6.setText("Listado de Compras");
         BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
 
-        jButton10.setText("BUSCAR");
-        BG.add(jButton10, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 130, -1, -1));
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        BG.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 130, -1, -1));
 
-        jButton11.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton11.setText("Exportar CSV");
-        BG.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 520, 120, 50));
+        btnExportarCSV.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnExportarCSV.setText("Exportar CSV");
+        BG.add(btnExportarCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, 120, 50));
 
-        jButton12.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
-        jButton12.setText("Exportar PDF");
-        BG.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 460, 120, 50));
+        btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnExportarPDF.setText("Exportar PDF");
+        BG.add(btnExportarPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 460, 120, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -255,6 +260,10 @@ public class FormBusqueda extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,16 +303,16 @@ public class FormBusqueda extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JButton btnAcuerdo;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEntidad;
+    private javax.swing.JButton btnEstado;
+    private javax.swing.JButton btnExportarCSV;
+    private javax.swing.JButton btnExportarPDF;
+    private javax.swing.JButton btnFormalizacion;
+    private javax.swing.JButton btnProcedimiento;
+    private javax.swing.JButton btnRUCEntidad;
+    private javax.swing.JButton btnRucProveedor;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
