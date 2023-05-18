@@ -10,6 +10,13 @@ public class Usuario {
     private String ccontrasena;
     private Persona idpersona;
 
+    public Usuario(int idcodigo, String clogin, String ccontrasena, Persona idpersona) {
+        this.idcodigo = idcodigo;
+        this.clogin = clogin;
+        this.ccontrasena = ccontrasena;
+        this.idpersona = idpersona;
+    }   
+    
     public int getIdcodigo() {
         return idcodigo;
     }
@@ -41,5 +48,5 @@ public class Usuario {
     public void setIdpersona(Persona idpersona) {
         this.idpersona = idpersona;
     }
-        
+         
 }
