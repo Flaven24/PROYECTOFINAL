@@ -1,6 +1,10 @@
 package trabajo_final_Formularios;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import trabajo_final.clases.Usuario;
 import trabajo_final.lectorArchivos.LectorArchivos;
 
@@ -208,7 +212,13 @@ public class FormPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FormPrincipal().setVisible(true);
+                try {
+                    UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+                    new FormPrincipal().setVisible(true);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } 
+
             }
         });
     }
