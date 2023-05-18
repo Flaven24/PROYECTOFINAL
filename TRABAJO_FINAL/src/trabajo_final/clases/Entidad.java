@@ -10,6 +10,13 @@ public class Entidad {
     private String cnombre;
     private TipoEntidad idtipo;
 
+    public Entidad(int identidad, String cruc, String cnombre, TipoEntidad idtipo) {
+        this.identidad = identidad;
+        this.cruc = cruc;
+        this.cnombre = cnombre;
+        this.idtipo = idtipo;
+    }
+    
     public int getIdentidad() {
         return identidad;
     }

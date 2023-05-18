@@ -8,6 +8,11 @@ public class EstadoOrden {
     private int idestado;
     private String cnomestado;
 
+    public EstadoOrden(int idestado, String cnomestado) {
+        this.idestado = idestado;
+        this.cnomestado = cnomestado;
+    }
+
     public int getIdestado() {
         return idestado;
     }

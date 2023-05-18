@@ -8,6 +8,11 @@ public class TipoEntidad {
     private int idtipo;
     private String cdescripcion;
 
+    public TipoEntidad(int idtipo, String cdescripcion) {
+        this.idtipo = idtipo;
+        this.cdescripcion = cdescripcion;
+    }
+
     public int getIdtipo() {
         return idtipo;
     }

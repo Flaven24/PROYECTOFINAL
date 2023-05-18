@@ -24,6 +24,25 @@ public class OrdenElectronica {
     private String cdescripcioncesion;
     private String cacuerdo;
 
+    public OrdenElectronica(int idorden, Entidad idproveedor, Entidad identidad, TipoProcedimiento idtipo, String celectronica, String celectronicagenerada, String cdocumentoocam, Date dfecform, Date dfecult, double nsubtot, double nigv, double ntotal, String cordendigitalizada, String cdescripcionestrado, String cdescripcioncesion, String cacuerdo) {
+        this.idorden = idorden;
+        this.idproveedor = idproveedor;
+        this.identidad = identidad;
+        this.idtipo = idtipo;
+        this.celectronica = celectronica;
+        this.celectronicagenerada = celectronicagenerada;
+        this.cdocumentoocam = cdocumentoocam;
+        this.dfecform = dfecform;
+        this.dfecult = dfecult;
+        this.nsubtot = nsubtot;
+        this.nigv = nigv;
+        this.ntotal = ntotal;
+        this.cordendigitalizada = cordendigitalizada;
+        this.cdescripcionestrado = cdescripcionestrado;
+        this.cdescripcioncesion = cdescripcioncesion;
+        this.cacuerdo = cacuerdo;
+    }
+
     public int getIdorden() {
         return idorden;
     }

@@ -113,12 +113,27 @@ public class FormEstadistica extends javax.swing.JFrame {
         BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
         btnAcuerdoPorDia.setText("Acuerdo Marco por Día");
+        btnAcuerdoPorDia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcuerdoPorDiaActionPerformed(evt);
+            }
+        });
         BG.add(btnAcuerdoPorDia, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 310, -1));
 
         btnEntidadesProced.setText("Compras Entidades/Proveedores por Procedimiento");
+        btnEntidadesProced.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntidadesProcedActionPerformed(evt);
+            }
+        });
         BG.add(btnEntidadesProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 310, -1));
 
         btnAcuerdoProced.setText("Compras Acuerdo Marco/Entidad por Procedimiento");
+        btnAcuerdoProced.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcuerdoProcedActionPerformed(evt);
+            }
+        });
         BG.add(btnAcuerdoProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 310, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -134,6 +149,21 @@ public class FormEstadistica extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEntidadesProcedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntidadesProcedActionPerformed
+        // TODO add your handling code here:             
+        FormEstEntidadProveedor.crearVentana();
+    }//GEN-LAST:event_btnEntidadesProcedActionPerformed
+
+    private void btnAcuerdoProcedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoProcedActionPerformed
+        // TODO add your handling code here:
+        FormEstMarcoEntidad.crearVentana();
+    }//GEN-LAST:event_btnAcuerdoProcedActionPerformed
+
+    private void btnAcuerdoPorDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoPorDiaActionPerformed
+        // TODO add your handling code here:
+        FormEstAcuerdoDia.crearVentana();        
+    }//GEN-LAST:event_btnAcuerdoPorDiaActionPerformed
 
     /**
      * @param args the command line arguments

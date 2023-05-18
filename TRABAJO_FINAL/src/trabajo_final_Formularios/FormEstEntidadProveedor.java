@@ -6,11 +6,20 @@ package trabajo_final_Formularios;
  */
 public class FormEstEntidadProveedor extends javax.swing.JFrame {
 
+    private static FormEstEntidadProveedor form;
     /**
      * Creates new form FormPrincipal
      */
-    public FormEstEntidadProveedor() {
+    private FormEstEntidadProveedor() {
         initComponents();
+    }
+    
+    public static FormEstEntidadProveedor crearVentana() {
+        if (form == null) {
+            form = new FormEstEntidadProveedor();            
+        }
+        form.setVisible(true);
+        return form;
     }
 
     /**
@@ -101,7 +110,7 @@ public class FormEstEntidadProveedor extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
         BG.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

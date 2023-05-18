@@ -8,6 +8,11 @@ public class TipoProcedimiento {
     private int idtipo;
     private String cnomtipo;
 
+    public TipoProcedimiento(int idtipo, String cnomtipo) {
+        this.idtipo = idtipo;
+        this.cnomtipo = cnomtipo;
+    }
+
     public int getIdtipo() {
         return idtipo;
     }

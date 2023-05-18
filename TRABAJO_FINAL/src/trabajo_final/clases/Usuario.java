@@ -8,9 +8,9 @@ public class Usuario {
     private int idcodigo ;
     private String clogin;
     private String ccontrasena;
-    private Persona idpersona;
+    private int idpersona;
 
-    public Usuario(int idcodigo, String clogin, String ccontrasena, Persona idpersona) {
+    public Usuario(int idcodigo, String clogin, String ccontrasena, int idpersona) {
         this.idcodigo = idcodigo;
         this.clogin = clogin;
         this.ccontrasena = ccontrasena;
@@ -41,11 +41,11 @@ public class Usuario {
         this.ccontrasena = ccontrasena;
     }
 
-    public Persona getIdpersona() {
+    public int getIdpersona() {
         return idpersona;
     }
 
-    public void setIdpersona(Persona idpersona) {
+    public void setIdpersona(int idpersona) {
         this.idpersona = idpersona;
     }
          

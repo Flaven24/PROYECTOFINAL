@@ -11,6 +11,14 @@ public class Persona {
     private String capemat;
     private String cdni;
 
+    public Persona(int idpersona, String cnombre, String capepat, String capemat, String cdni) {
+        this.idpersona = idpersona;
+        this.cnombre = cnombre;
+        this.capepat = capepat;
+        this.capemat = capemat;
+        this.cdni = cdni;
+    }
+
     public int getIdpersona() {
         return idpersona;
     }

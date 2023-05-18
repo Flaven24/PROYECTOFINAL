@@ -14,12 +14,7 @@ public class TRABAJO_FINAL {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        // TODO code application logic here
-        // comentarios
-
-        System.out.println("hola como estas");
-
-    }
+   
+   
     
 }
