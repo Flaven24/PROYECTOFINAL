@@ -50,6 +50,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         txtContrasena = new javax.swing.JPasswordField();
         jPanel1 = new javax.swing.JPanel();
         btnIngresar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -109,27 +110,24 @@ public class FormPrincipal extends javax.swing.JFrame {
         jLabel2.setText("Ministerio de Economia y Finanzas");
         BG.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel3.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 12)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Lucida Sans Typewriter", 3, 18)); // NOI18N
         jLabel3.setText("INICIAR SESION");
-        BG.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, -1));
+        BG.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 180, -1));
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel5.setText("USUARIO");
         BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
 
-        txtUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        txtUsuario.setBorder(null);
-        BG.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 140, 180, -1));
+        txtUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        BG.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 138, 180, 20));
         BG.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
         BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 170, -1));
 
         jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel6.setText("CONTRASEÑA");
         BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
-        BG.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 170, -1));
-
-        txtContrasena.setForeground(new java.awt.Color(0, 0, 0));
-        BG.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 180, -1));
+        BG.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 223, 170, 10));
+        BG.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 180, 20));
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
         jPanel1.setForeground(new java.awt.Color(255, 51, 51));
@@ -147,13 +145,25 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
+        btnIngresar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnIngresar.setText("INGRESAR");
         btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnIngresarActionPerformed(evt);
             }
         });
-        BG.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 330, 158, 30));
+        BG.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 170, 30));
+
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
+        jButton1.setFont(new java.awt.Font("Arial Black", 3, 18)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(51, 51, 51));
+        jButton1.setText("REGISTRAR");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        BG.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -183,6 +193,12 @@ public class FormPrincipal extends javax.swing.JFrame {
         }
         // REGISTRAR USUARIOS 
     }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        FormRegistro formRegistro = new FormRegistro();
+                formRegistro.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,6 +244,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel BG;
     private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
