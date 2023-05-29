@@ -5,8 +5,12 @@ package trabajo_final.clases;
  * @author Acer
  */
 public class TipoEntidad {
+
     private int idtipo;
     private String cdescripcion;
+
+    public static TipoEntidad ENTIDAD = new TipoEntidad(1, "ENTIDAD");
+    public static TipoEntidad PROVEEDOR = new TipoEntidad(2, "PROVEEDOR");
 
     public TipoEntidad(int idtipo, String cdescripcion) {
         this.idtipo = idtipo;
@@ -28,5 +32,5 @@ public class TipoEntidad {
     public void setCdescripcion(String cdescripcion) {
         this.cdescripcion = cdescripcion;
     }
-    
+
 }

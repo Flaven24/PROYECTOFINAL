@@ -15,6 +15,7 @@ import trabajo_final.lectorArchivos.LectorArchivos;
  */
 public class FormPrincipal extends javax.swing.JFrame {
 
+    LectorArchivos lectorArchivos= new LectorArchivos();
     /**
      * Creates new form FormPrincipal
      */
@@ -169,9 +170,9 @@ public class FormPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        // LOGIN
-        LectorArchivos lectorUsuario= new LectorArchivos();
-        for(Usuario usuario:lectorUsuario.leerUsuarios()){
+        // LOGIN        
+        
+        for(Usuario usuario:lectorArchivos.leerUsuarios()){
             if(usuario.getClogin().equals(txtUsuario.getText())&&usuario.getCcontrasena().equals(txtContrasena.getText())){
                 JOptionPane.showMessageDialog(jFrame1, "ACCESO CORRECTO");
                 this.dispose();
@@ -180,6 +181,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             }else
                 JOptionPane.showMessageDialog(jFrame1, "Usuario y/o contraseña incorrecta");
         }
+        // REGISTRAR USUARIOS 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     /**
@@ -214,7 +216,7 @@ public class FormPrincipal extends javax.swing.JFrame {
             public void run() {
                 try {
                     UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-                    new FormPrincipal().setVisible(true);
+                    new FormPrincipal().setVisible(true);                                        
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 } 

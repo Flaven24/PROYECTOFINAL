@@ -48,5 +48,10 @@ public class Entidad {
     public void setIdtipo(TipoEntidad idtipo) {
         this.idtipo = idtipo;
     }
+    
+    @Override
+    public String toString(){
+        return cnombre+";"+cruc;
+    }
      
 }
