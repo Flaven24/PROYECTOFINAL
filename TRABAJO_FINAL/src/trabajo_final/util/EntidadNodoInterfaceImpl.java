@@ -1,15 +1,17 @@
 package trabajo_final.util;
 
+import trabajo_final.clases.Entidad;
+
 /**
  *
  * @author Acer
  */
-public class NodoInterfaceImpl implements NodoInterface {
+public class EntidadNodoInterfaceImpl implements NodoInterface {
 
-    Nodo cabecera;
+    NodoEntidad cabecera;
 
-    public NodoInterfaceImpl() {
-        cabecera = new Nodo(null);
+    public EntidadNodoInterfaceImpl() {
+        cabecera = new NodoEntidad(null);
     }
 
     private boolean estaVacia() {
@@ -20,8 +22,8 @@ public class NodoInterfaceImpl implements NodoInterface {
         }
     }
 
-    private Nodo buscarUltimoNodo() {
-        Nodo iterador = this.cabecera;
+    private NodoEntidad buscarUltimoNodo() {
+        NodoEntidad iterador = this.cabecera;
         while (iterador.getSiguiente() != null) {
             iterador = iterador.getSiguiente();
         }
@@ -30,38 +32,34 @@ public class NodoInterfaceImpl implements NodoInterface {
 
     @Override
     public void insertarFinal(Nodo nuevoNodo) {
-        Nodo iterador = this.cabecera;
+        NodoEntidad iterador = this.cabecera;
         if (estaVacia()) {
             //this.cabecera.setNodo(nuevoNodo);
-            this.cabecera.setSiguiente(nuevoNodo);
+            this.cabecera.setSiguiente((NodoEntidad)nuevoNodo);
             nuevoNodo.setSiguiente(null);
         } else {
             while (iterador.getSiguiente() != null) {
                 iterador = iterador.getSiguiente();
             }
-
-            iterador.setSiguiente(nuevoNodo);
+            iterador.setSiguiente((NodoEntidad)nuevoNodo);
             nuevoNodo.setSiguiente(null);
         }
-
     }
-
+    
     @Override
     public void insertarInicio(Nodo nuevoNodo) {
         if (estaVacia()) {
-            this.cabecera = nuevoNodo;
+            this.cabecera = (NodoEntidad)nuevoNodo;
             nuevoNodo.setSiguiente(null);
         } else {
             nuevoNodo.setSiguiente(this.cabecera);
-            this.cabecera = nuevoNodo;
+            this.cabecera = (NodoEntidad)nuevoNodo;
         }
     }
-
-    @Override
-    public String retirarInicio() {
-        // PENDIENTE
-        Nodo iterador = this.cabecera;
-        Nodo nodoEliminar = null;
+    
+    public String retirarInicio() {       
+        NodoEntidad iterador = this.cabecera;
+        NodoEntidad nodoEliminar = null;
         if (this.estaVacia()) {
             return null;
         }
@@ -78,7 +76,6 @@ public class NodoInterfaceImpl implements NodoInterface {
         return String.valueOf(nodoEliminar.getNodo());
     }
 
-    @Override
     public String retirarFinal() {
         Nodo iterador = this.cabecera;
         Nodo nodoEliminar = null;
@@ -105,10 +102,9 @@ public class NodoInterfaceImpl implements NodoInterface {
         return String.valueOf(nodoEliminar.getNodo());
     }
 
-    @Override
     public String imprimirLista() {
         String cadena = "";
-        Nodo iterador = this.cabecera;
+        NodoEntidad iterador = this.cabecera;
 
         while (iterador != null) {
             if (iterador.getNodo() != null) {
@@ -119,22 +115,22 @@ public class NodoInterfaceImpl implements NodoInterface {
         return cadena;
     }
 
-    public void insertaOrden(Object nuevoDato) {
-        Nodo nuevo = new Nodo(nuevoDato);
+    public void insertaOrden(Entidad nuevoDato) {
+        NodoEntidad nuevo = new NodoEntidad(nuevoDato);
         if (this.cabecera == null) {
             this.cabecera = nuevo;
-        } else if (nuevoDato.toString().compareTo(this.cabecera.getNodo().toString()) < 0) {
+        } else if (nuevoDato.getCnombre().compareTo(this.cabecera.getNodo().getCnombre()) < 0) {
             nuevo.setSiguiente(this.cabecera);
             this.cabecera = nuevo;          
         } else {
-            Nodo anterior, iterador;
+            NodoEntidad anterior, iterador;
             anterior = iterador = this.cabecera;
             // ubica la posicion donde se va a ingresar el nuevo nodo
-            while ((iterador.getSiguiente() != null) && (nuevoDato.toString().compareTo(iterador.getNodo().toString())) > 0) {
+            while ((iterador.getSiguiente() != null) && (nuevoDato.getCnombre().compareTo(iterador.getNodo().getCnombre())) > 0) {
                 anterior = iterador;
                 iterador = iterador.getSiguiente();
             }
-            if ((nuevoDato.toString().compareTo(iterador.getNodo().toString())) > 0) {
+            if ((nuevoDato.getCnombre().compareTo(iterador.getNodo().getCnombre().toString())) > 0) {
                 anterior = iterador;
             }
             nuevo.setSiguiente(anterior.getSiguiente());
@@ -142,22 +138,25 @@ public class NodoInterfaceImpl implements NodoInterface {
         }
     }
 
-    public Nodo sinDuplicados(Nodo nodo) {
-        Nodo iterador = nodo;
-        this.cabecera.setSiguiente(null);                
+    public NodoEntidad sinDuplicados(NodoEntidad nodo) {
+        NodoEntidad iterador = nodo;        
         while (iterador.getSiguiente()!= null) {
-            if (iterador.getNodo().toString().equals(iterador.getSiguiente().getNodo().toString())) {
+            if (iterador.getNodo().getCnombre().equals(iterador.getSiguiente().getNodo().getCnombre())) {
                 iterador.setSiguiente(iterador.getSiguiente().getSiguiente());
             } else {
-                insertaOrden(iterador);                
                 iterador = iterador.getSiguiente();
             }
         }
         return nodo;
+    } 
+
+    public NodoEntidad getCabecera() {
+        return cabecera;
     }
 
-    public Nodo getNodo() {
-        return this.cabecera;
+    public void setCabecera(NodoEntidad cabecera) {
+        this.cabecera = cabecera;
     }
+
 
 }

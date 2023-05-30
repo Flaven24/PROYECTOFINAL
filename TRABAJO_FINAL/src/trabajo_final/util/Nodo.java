@@ -39,7 +39,5 @@ public class Nodo {
     public String toString() {
         return nodo.toString();
     }
-    
-    
-    
+            
 }

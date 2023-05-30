@@ -14,7 +14,9 @@ import trabajo_final.clases.TipoEntidad;
 import trabajo_final.clases.Usuario;
 import trabajo_final.datos.Archivos;
 import trabajo_final.datos.Datos;
+import trabajo_final.util.EntidadNodoInterfaceImpl;
 import trabajo_final.util.Nodo;
+import trabajo_final.util.NodoEntidad;
 import trabajo_final.util.NodoInterfaceImpl;
 
 /**
@@ -25,7 +27,7 @@ public class LectorArchivos {
     private static DtoOrdenElectronica[] general;
     private SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
     
-    private NodoInterfaceImpl objNodo= new NodoInterfaceImpl();
+    private EntidadNodoInterfaceImpl objNodo= new EntidadNodoInterfaceImpl();
     private Datos objDatos;    
     
     public LectorArchivos(){       
@@ -60,6 +62,7 @@ public class LectorArchivos {
     
     private void leerArchivosEstadisticos(){
         // LECTURA Y LLENADO DE ARCHIVOS ESTADISTICOS EN STRINGBUILDER
+        //String []rutas={Archivos.rutaBienes1,Archivos.rutaBienes2,Archivos.rutaBienes3};
         String []rutas={Archivos.rutaBienes1,Archivos.rutaBienes2};//,Archivos.rutaBienes3};
         StringBuilder sb=new StringBuilder();
         
@@ -126,45 +129,36 @@ public class LectorArchivos {
     }
         
     private void llenarEntidades(){
-        objNodo= new NodoInterfaceImpl();
-        System.out.println("LLENANDO ENTIDADES");
-        objNodo.insertarInicio(new Nodo(new Entidad(0, general[0].getRUC_ENTIDAD(), general[0].getENTIDAD(), TipoEntidad.ENTIDAD)));        
-        objNodo.insertarFinal(new Nodo(new Entidad(0, general[0].getRUC_PROVEEDOR(), general[0].getPROVEEDOR(), TipoEntidad.PROVEEDOR)));
+        objNodo= new EntidadNodoInterfaceImpl();
+        // LLENADO ENTIDADES
+        objNodo.insertarInicio(new NodoEntidad(new Entidad(0, general[0].getRUC_PROVEEDOR(), general[0].getPROVEEDOR().trim(), TipoEntidad.PROVEEDOR)));        
+        objNodo.insertarFinal(new NodoEntidad(new Entidad(0, general[0].getRUC_ENTIDAD(), general[0].getENTIDAD().trim(), TipoEntidad.ENTIDAD)));                
         for(int x=1;x<general.length-1;x++){
-            objNodo.insertarFinal(new Nodo(new Entidad(0, general[x].getRUC_PROVEEDOR(), general[x].getPROVEEDOR(), TipoEntidad.PROVEEDOR)));                        
-            objNodo.insertarFinal(new Nodo(new Entidad(0, general[x+1].getRUC_PROVEEDOR(), general[x].getPROVEEDOR(), TipoEntidad.PROVEEDOR)));            
-            x++;            
+            objNodo.insertarFinal(new NodoEntidad(new Entidad(0, general[x].getRUC_PROVEEDOR(), general[x].getPROVEEDOR().trim(), TipoEntidad.PROVEEDOR)));                        
+            objNodo.insertarFinal(new NodoEntidad(new Entidad(0, general[x].getRUC_ENTIDAD(), general[x].getENTIDAD().trim(), TipoEntidad.ENTIDAD)));            
         }
-        Nodo EntidadesGeneral=objNodo.getNodo();                
+        NodoEntidad EntidadesGeneral=objNodo.getCabecera();
+                
+        objNodo= new EntidadNodoInterfaceImpl();
+        NodoEntidad temporalInicio=new NodoEntidad(EntidadesGeneral.getNodo(),null);
+        objNodo.insertarInicio(temporalInicio);        
         
-        objNodo= new NodoInterfaceImpl();
-        Nodo iterador=EntidadesGeneral;
-        
-        
-        Nodo temporalInicio=new Nodo((Entidad)EntidadesGeneral.getNodo(),null);
-        //temporalInicio.setSiguiente(null);
-        objNodo.insertarInicio(temporalInicio);
-        
-        
-        
+        // ORDEN
+        NodoEntidad iterador=EntidadesGeneral;        
         while(iterador!=null){
             if (iterador.getNodo() != null) {
-                Entidad entidad=(Entidad)iterador.getNodo();
+                Entidad entidad=iterador.getNodo();
                 objNodo.insertaOrden(entidad);
             }
             iterador=iterador.getSiguiente();
-        }
-        
-        Nodo nodo =objNodo.sinDuplicados(EntidadesGeneral);
-        System.out.println("S/DUPL");
-        while(nodo!=null){
-            if (nodo.getNodo() != null) {
-                Entidad entidad=(Entidad)nodo.getNodo();
-                System.out.println(entidad);
-            }
-            nodo=nodo.getSiguiente();
-        }
-        
+        }                                
+        // QUITAR DUPLICADOS
+        NodoEntidad nodo=objNodo.sinDuplicados(objNodo.getCabecera());
+        objNodo= new EntidadNodoInterfaceImpl();
+        objNodo.setCabecera(nodo);        
+        System.out.println(objNodo.imprimirLista());
+        objDatos.nodoEntidad=nodo;
+        System.out.println("fin");
     }
 
     // CONTROLADORES
