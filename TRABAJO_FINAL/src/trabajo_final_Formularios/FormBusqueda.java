@@ -6,6 +6,10 @@ package trabajo_final_Formularios;
  */
 public class FormBusqueda extends javax.swing.JFrame {
 
+    static void crearVentana() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     /**
      * Creates new form FormPrincipal
      */
