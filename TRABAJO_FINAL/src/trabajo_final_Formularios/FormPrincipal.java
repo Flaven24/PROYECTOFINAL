@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import trabajo_final.clases.Usuario;
+import trabajo_final.datos.Datos;
 import trabajo_final.lectorArchivos.LectorArchivos;
 
 
@@ -16,6 +17,7 @@ import trabajo_final.lectorArchivos.LectorArchivos;
 public class FormPrincipal extends javax.swing.JFrame {
 
     LectorArchivos lectorArchivos= new LectorArchivos();
+    Datos objDatos= new Datos();
     /**
      * Creates new form FormPrincipal
      */
@@ -51,6 +53,7 @@ public class FormPrincipal extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnIngresar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -103,8 +106,8 @@ public class FormPrincipal extends javax.swing.JFrame {
         BG.setBackground(new java.awt.Color(255, 255, 255));
         BG.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/MEF.jpg"))); // NOI18N
-        BG.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 60, 390, 400));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/inicio.png"))); // NOI18N
+        BG.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 80, 100));
 
         jLabel2.setFont(new java.awt.Font("Lucida Sans", 0, 36)); // NOI18N
         jLabel2.setText("Ministerio de Economia y Finanzas");
@@ -112,22 +115,22 @@ public class FormPrincipal extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Lucida Sans Typewriter", 3, 18)); // NOI18N
         jLabel3.setText("INICIAR SESION");
-        BG.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 180, -1));
+        BG.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 100, 180, -1));
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel5.setText("USUARIO");
-        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, -1, -1));
+        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         txtUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
-        BG.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 138, 180, 20));
+        BG.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 180, 20));
         BG.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
-        BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 170, -1));
+        BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 170, -1));
 
         jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel6.setText("CONTRASEÑA");
-        BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
-        BG.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 223, 170, 10));
-        BG.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 180, 20));
+        BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, -1, -1));
+        BG.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 170, 10));
+        BG.add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 180, 20));
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
         jPanel1.setForeground(new java.awt.Color(255, 51, 51));
@@ -152,10 +155,10 @@ public class FormPrincipal extends javax.swing.JFrame {
                 btnIngresarActionPerformed(evt);
             }
         });
-        BG.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 170, 30));
+        BG.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 310, 170, 30));
 
         jButton1.setBackground(new java.awt.Color(255, 51, 51));
-        jButton1.setFont(new java.awt.Font("Arial Black", 3, 18)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Arial Black", 3, 12)); // NOI18N
         jButton1.setForeground(new java.awt.Color(51, 51, 51));
         jButton1.setText("REGISTRAR");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +166,10 @@ public class FormPrincipal extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        BG.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 380, -1, -1));
+        BG.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, 150, 30));
+
+        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/MEF.jpg"))); // NOI18N
+        BG.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 270, 200, 210));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,23 +187,26 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // LOGIN        
-        
-        for(Usuario usuario:lectorArchivos.leerUsuarios()){
+        lectorArchivos.leerUsuarios();
+        boolean bintento=false;
+        for(Usuario usuario:objDatos.usuarios){
             if(usuario.getClogin().equals(txtUsuario.getText())&&usuario.getCcontrasena().equals(txtContrasena.getText())){
                 JOptionPane.showMessageDialog(jFrame1, "ACCESO CORRECTO");
                 this.dispose();
                 FormEstadistica formEstadistica = new FormEstadistica();
                 formEstadistica.setVisible(true);
-            }else
-                JOptionPane.showMessageDialog(jFrame1, "Usuario y/o contraseña incorrecta");
+                bintento=true;
+            }                
         }
+        if(!bintento)
+            JOptionPane.showMessageDialog(jFrame1, "Usuario y/o contraseña incorrecta");
+        
         // REGISTRAR USUARIOS 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        FormRegistro formRegistro = new FormRegistro();
-                formRegistro.setVisible(true);
+        FormRegistro.crearVentana();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -255,6 +264,7 @@ public class FormPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;

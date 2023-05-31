@@ -28,19 +28,18 @@ public class LectorArchivos {
     private SimpleDateFormat formatter= new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
     
     private EntidadNodoInterfaceImpl objNodo= new EntidadNodoInterfaceImpl();
-    private Datos objDatos;    
+    private Datos objDatos;
     
     public LectorArchivos(){       
         if(general==null){
+            leerUsuarios();
             leerArchivosEstadisticos();
-            llenarEntidades();
-            System.out.println("FIN");
+            llenarEntidades();            
         }
     }
     
-    public Usuario[] leerUsuarios(){                
-        StringBuilder db =LeerArchivo(Archivos.rutaUsuarios);
-        System.out.println(db.toString().trim());
+    public void leerUsuarios(){                
+        StringBuilder db =LeerArchivo(Archivos.rutaUsuarios);        
         int tamaño=0;
         for(String cadena :db.toString().split("\n")){
             if(!cadena.isEmpty()){
@@ -51,13 +50,13 @@ public class LectorArchivos {
         Usuario[]usuarios = new Usuario[tamaño];
         int indice=0;
         for(String cadena :db.toString().split("\n")){
-            if(!cadena.isEmpty()){
+            if(!cadena.trim().isEmpty()){
                 Usuario usuario = new Usuario(Integer.valueOf(cadena.split(";")[0]),cadena.split(";")[1],cadena.split(";")[2],Integer.valueOf(cadena.split(";")[3]));
                 usuarios[indice]=usuario;
                 indice++;            
             }
         }
-        return usuarios;
+        objDatos.usuarios=usuarios;
     }
     
     private void leerArchivosEstadisticos(){

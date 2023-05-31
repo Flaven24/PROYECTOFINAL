@@ -1,5 +1,6 @@
 package trabajo_final.datos;
 
+import trabajo_final.clases.Usuario;
 import trabajo_final.util.Nodo;
 import trabajo_final.util.NodoEntidad;
 
@@ -9,6 +10,7 @@ import trabajo_final.util.NodoEntidad;
  */
 public class Datos {
 
+    public static Usuario []usuarios= new Usuario[0];
     public static NodoEntidad nodoEntidad = new NodoEntidad(null);
     public static Nodo nodoTipoProcedimiento = new Nodo(null);
     public static Nodo nodoFechaForm = new Nodo(null);

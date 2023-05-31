@@ -48,5 +48,9 @@ public class Usuario {
     public void setIdpersona(int idpersona) {
         this.idpersona = idpersona;
     }
+    
+    public String toCSV(){
+        return idcodigo+";"+clogin+";"+ccontrasena+";"+idpersona;
+    }
          
 }

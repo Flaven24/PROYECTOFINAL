@@ -1,18 +1,32 @@
 package trabajo_final_Formularios;
 
 import javax.swing.JOptionPane;
+import trabajo_final.clases.Usuario;
+import trabajo_final.datos.Archivos;
+import trabajo_final.datos.Datos;
+import trabajo_final.lectorArchivos.LectorArchivos;
 
 /**
  *
  * @author Gutierrez Medina Anthony Kent  <U18100033@utp.edu.pe>
  */
 public class FormRegistro extends javax.swing.JFrame {
-
+    private Datos objDatos= new Datos();
+    
+    private static FormRegistro form;
     /**
-     * Creates new form FormRegistro
+     * Creates new form FormPrincipal
      */
-    public FormRegistro() {
+    private FormRegistro() {
         initComponents();
+    }
+    
+    public static FormRegistro crearVentana() {
+        if (form == null) {
+            form = new FormRegistro();            
+        }
+        form.setVisible(true);
+        return form;
     }
 
     /**
@@ -24,7 +38,6 @@ public class FormRegistro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
@@ -35,21 +48,29 @@ public class FormRegistro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         btnNuevoUsuario = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/MEF.jpg"))); // NOI18N
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(382, 480));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel3.setFont(new java.awt.Font("Lucida Sans Typewriter", 3, 18)); // NOI18N
-        jLabel3.setText("NUEVO USUARIO");
+        jLabel3.setText("REGISTRO USUARIO");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, 180, -1));
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel5.setText("USUARIO");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 210, -1, -1));
 
         txtUsuario.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
+        getContentPane().add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 240, 180, 20));
+        getContentPane().add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 170, -1));
 
         jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel6.setText("CONTRASEÑA");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 280, -1, -1));
+        getContentPane().add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 170, 10));
+        getContentPane().add(txtContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 300, 180, 20));
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
         jPanel1.setForeground(new java.awt.Color(255, 51, 51));
@@ -63,93 +84,57 @@ public class FormRegistro extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 607, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 0, -1, -1));
+
         btnNuevoUsuario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnNuevoUsuario.setText("NUEVO USUARIO");
+        btnNuevoUsuario.setText("REGISTRAR");
         btnNuevoUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoUsuarioActionPerformed(evt);
             }
         });
+        getContentPane().add(btnNuevoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 182, 30));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel5))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jLabel6))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(10, 10, 10)
-                            .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(20, 20, 20)
-                            .addComponent(btnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(0, 445, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap(82, Short.MAX_VALUE)
-                    .addComponent(jLabel3)
-                    .addGap(8, 8, 8)
-                    .addComponent(jLabel5)
-                    .addGap(13, 13, 13)
-                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(2, 2, 2)
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(17, 17, 17)
-                    .addComponent(jLabel6)
-                    .addGap(5, 5, 5)
-                    .addComponent(txtContrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(3, 3, 3)
-                    .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(27, 27, 27)
-                    .addComponent(btnNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 174, Short.MAX_VALUE)))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/registro.png"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 100, 70, 80));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
         // REGISTRAR NUEVO USUARIO
-        FormPrincipal formPrincipal = new FormPrincipal();
-        formPrincipal.setVisible(true);
+        LectorArchivos lector = new LectorArchivos();
+        lector.leerUsuarios();
+        int n=Datos.usuarios.length;
+        Usuario[] usuarios= new Usuario[n+1];
+        int ultimoCodigo=Datos.usuarios[n-1].getIdcodigo();
+        
+        StringBuilder sb = new StringBuilder();
+        for(int x=0;x<Datos.usuarios.length;x++){
+            sb.append(Datos.usuarios[x].toCSV()+"\n");
+            usuarios[x]=Datos.usuarios[x];
+        }
+        Usuario usuario=new Usuario((ultimoCodigo+1), txtUsuario.getText().trim(), txtContrasena.getText().trim(), 0);
+        sb.append(usuario.toCSV()+"\n");
+        
+        usuarios[n]=usuario;
+        
+        lector.EscribirArchivo(sb, Archivos.rutaUsuarios);
+        JOptionPane.showMessageDialog(this.form, "USUARIO REGISTRADO");
+        txtUsuario.setText("");
+        txtContrasena.setText("");
+        lector.leerUsuarios();
+        this.dispose();
         
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
