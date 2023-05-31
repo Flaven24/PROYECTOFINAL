@@ -34,7 +34,8 @@ public class LectorArchivos {
         if(general==null){
             leerUsuarios();
             leerArchivosEstadisticos();
-            llenarEntidades();            
+            llenarEntidades();     
+            
         }
     }
     
@@ -53,7 +54,7 @@ public class LectorArchivos {
             if(!cadena.trim().isEmpty()){
                 Usuario usuario = new Usuario(Integer.valueOf(cadena.split(";")[0]),cadena.split(";")[1],cadena.split(";")[2],Integer.valueOf(cadena.split(";")[3]));
                 usuarios[indice]=usuario;
-                indice++;            
+                indice++;
             }
         }
         objDatos.usuarios=usuarios;
@@ -216,5 +217,9 @@ public class LectorArchivos {
             ex.printStackTrace();
         }
     }
+
+    public static DtoOrdenElectronica[] getGeneral() {
+        return general;
+    }      
 
 }

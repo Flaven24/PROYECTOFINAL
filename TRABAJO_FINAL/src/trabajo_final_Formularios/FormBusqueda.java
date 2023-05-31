@@ -1,11 +1,21 @@
 package trabajo_final_Formularios;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import trabajo_final.clases.DtoOrdenElectronica;
+import trabajo_final.datos.Datos;
+import trabajo_final.lectorArchivos.LectorArchivos;
+import trabajo_final.modelo.ModeloEntidadRuc;
+import trabajo_final_Formularios.filtro.FormFiltro;
+
 /**
  *
  * @author Gutierrez Medina Anthony Kent  <U18100033@utp.edu.pe>
  */
 public class FormBusqueda extends javax.swing.JFrame {
 
+    private Datos objDatos = new Datos();
+    
     static void crearVentana() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
@@ -36,22 +46,22 @@ public class FormBusqueda extends javax.swing.JFrame {
         BG = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtRucEntidad = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         jPanel1 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtRucProveedor = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         jLabel9 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtFecha = new javax.swing.JTextField();
         jSeparator5 = new javax.swing.JSeparator();
-        jTextField4 = new javax.swing.JTextField();
+        txtAcuerdo = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
         btnEstado = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblBusqueda = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
         btnRUCEntidad = new javax.swing.JButton();
         btnEntidad = new javax.swing.JButton();
@@ -136,9 +146,9 @@ public class FormBusqueda extends javax.swing.JFrame {
         jLabel5.setText("Filtros");
         BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 180, -1, -1));
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setBorder(null);
-        BG.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 180, -1));
+        txtRucEntidad.setForeground(new java.awt.Color(204, 204, 204));
+        txtRucEntidad.setBorder(null);
+        BG.add(txtRucEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 180, -1));
         BG.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
         BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 170, -1));
 
@@ -162,24 +172,24 @@ public class FormBusqueda extends javax.swing.JFrame {
         jLabel8.setText("RUC Proveedor");
         BG.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        jTextField2.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField2.setBorder(null);
-        BG.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 180, -1));
+        txtRucProveedor.setForeground(new java.awt.Color(204, 204, 204));
+        txtRucProveedor.setBorder(null);
+        BG.add(txtRucProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 180, -1));
         BG.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 170, -1));
 
         jLabel9.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 12)); // NOI18N
         jLabel9.setText("Fecha Formalización");
         BG.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 140, 30));
 
-        jTextField3.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField3.setText("dd/mm/yyyy");
-        jTextField3.setBorder(null);
-        BG.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 180, -1));
+        txtFecha.setForeground(new java.awt.Color(204, 204, 204));
+        txtFecha.setText("dd/mm/yyyy");
+        txtFecha.setBorder(null);
+        BG.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 180, -1));
         BG.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 170, -1));
 
-        jTextField4.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField4.setBorder(null);
-        BG.add(jTextField4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 180, -1));
+        txtAcuerdo.setForeground(new java.awt.Color(204, 204, 204));
+        txtAcuerdo.setBorder(null);
+        BG.add(txtAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 180, -1));
         BG.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 170, -1));
 
         btnEstado.setText("Estado Orden");
@@ -189,7 +199,7 @@ public class FormBusqueda extends javax.swing.JFrame {
         jLabel7.setText("Acuerdo Marco");
         BG.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, -1, -1));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -200,7 +210,7 @@ public class FormBusqueda extends javax.swing.JFrame {
                 "RUC PROV.", "RUC ENT.", "TIPO PROC.", "ORDEN ELEC.", "ESTADO ORDEN", "SUBTOTAL", "IGV", "TOTAL"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblBusqueda);
 
         BG.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 620, 360));
 
@@ -209,6 +219,11 @@ public class FormBusqueda extends javax.swing.JFrame {
         BG.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
 
         btnRUCEntidad.setText("RUC Entidad");
+        btnRUCEntidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRUCEntidadActionPerformed(evt);
+            }
+        });
         BG.add(btnRUCEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, 125, -1));
 
         btnEntidad.setText("Entidad");
@@ -267,7 +282,56 @@ public class FormBusqueda extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
+        ModeloEntidadRuc mRucEntidad = new ModeloEntidadRuc(new DtoOrdenElectronica[0]);
+        DtoOrdenElectronica[] general = LectorArchivos.getGeneral();
+        DtoOrdenElectronica[] filtrado;
+        int tamano=0;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        
+        String RucEntidad=txtRucEntidad.getText();
+        String RucProveedor=txtRucProveedor.getText();
+        String Fecha= txtFecha.getText();
+//        try{
+//            Fecha=format.parse();
+//            System.out.println(Fecha);
+//        }catch(Exception ex){
+//        }
+        String Acuerdo=txtAcuerdo.getText();
+        
+        for(DtoOrdenElectronica dto :general){   
+            System.out.println();
+            //04/01/2022           
+            if((dto.getRUC_ENTIDAD().contains(RucEntidad)&&!RucEntidad.isEmpty())
+                ||(dto.getRUC_PROVEEDOR().contains(RucProveedor)&&!RucProveedor.isEmpty())                
+                ||(format.format(dto.getFECHA_FORMALIZACIÓN()).contains(Fecha)&&!Fecha.isEmpty() )
+                ||(dto.getACUERDO_MARCO().contains(Acuerdo)&&!Acuerdo.isEmpty())){                
+                tamano++;            
+            }
+        }        
+        filtrado= new DtoOrdenElectronica[tamano];
+        
+        int contador=0;
+        for(DtoOrdenElectronica dto :general){
+            
+             if((dto.getRUC_ENTIDAD().contains(RucEntidad)&&!RucEntidad.isEmpty())
+                ||(dto.getRUC_PROVEEDOR().contains(RucProveedor)&&!RucProveedor.isEmpty())                
+                ||(format.format(dto.getFECHA_FORMALIZACIÓN()).contains(Fecha)&&!Fecha.isEmpty() )
+                ||(dto.getACUERDO_MARCO().contains(Acuerdo)&&!Acuerdo.isEmpty())){
+                filtrado[contador]=dto;
+                contador++;     
+            }
+        }
+        
+        mRucEntidad = new ModeloEntidadRuc(filtrado);
+        tblBusqueda.setModel(mRucEntidad);
+        mRucEntidad.fireTableDataChanged();        
+        
     }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnRUCEntidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRUCEntidadActionPerformed
+        // TODO add your handling code here:
+        new FormFiltro().setVisible(true);
+    }//GEN-LAST:event_btnRUCEntidadActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,10 +402,10 @@ public class FormBusqueda extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTable tblBusqueda;
+    private javax.swing.JTextField txtAcuerdo;
+    private javax.swing.JTextField txtFecha;
+    private javax.swing.JTextField txtRucEntidad;
+    private javax.swing.JTextField txtRucProveedor;
     // End of variables declaration//GEN-END:variables
 }

@@ -148,7 +148,24 @@ public class EntidadNodoInterfaceImpl implements NodoInterface {
             }
         }
         return nodo;
-    } 
+    }
+    
+    public NodoEntidad buscarPorPosicion(int posicion){
+
+        NodoEntidad iterador = this.cabecera;
+        int contador=0;
+        while (iterador.getSiguiente()!= null) {
+            if (iterador.getNodo() != null) {
+                if(contador==posicion){
+                    return iterador;                                                        
+                }
+                contador++;
+            }
+            iterador = iterador.getSiguiente();
+            
+        }
+        return null;
+    }
 
     public NodoEntidad getCabecera() {
         return cabecera;
