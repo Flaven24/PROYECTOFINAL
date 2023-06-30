@@ -2,7 +2,7 @@ package trabajo_final.util;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class Nodo {
 

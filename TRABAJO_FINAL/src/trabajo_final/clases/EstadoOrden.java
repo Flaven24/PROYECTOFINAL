@@ -2,23 +2,14 @@ package trabajo_final.clases;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class EstadoOrden {
-    private int idestado;
+
     private String cnomestado;
 
-    public EstadoOrden(int idestado, String cnomestado) {
-        this.idestado = idestado;
+    public EstadoOrden(String cnomestado) {
         this.cnomestado = cnomestado;
-    }
-
-    public int getIdestado() {
-        return idestado;
-    }
-
-    public void setIdestado(int idestado) {
-        this.idestado = idestado;
     }
 
     public String getCnomestado() {
@@ -27,6 +18,6 @@ public class EstadoOrden {
 
     public void setCnomestado(String cnomestado) {
         this.cnomestado = cnomestado;
-    }    
-            
+    }
+
 }

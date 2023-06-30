@@ -4,26 +4,28 @@ import javax.swing.JOptionPane;
 import trabajo_final.clases.Usuario;
 import trabajo_final.datos.Archivos;
 import trabajo_final.datos.Datos;
-import trabajo_final.lectorArchivos.LectorArchivos;
+import trabajo_final.controladorArchivos.LectorArchivos;
 
 /**
  *
  * @author Gutierrez Medina Anthony Kent  <U18100033@utp.edu.pe>
  */
 public class FormRegistro extends javax.swing.JFrame {
-    private Datos objDatos= new Datos();
-    
+
+    private Datos objDatos = new Datos();
+
     private static FormRegistro form;
+
     /**
      * Creates new form FormPrincipal
      */
     private FormRegistro() {
         initComponents();
     }
-    
+
     public static FormRegistro crearVentana() {
         if (form == null) {
-            form = new FormRegistro();            
+            form = new FormRegistro();
         }
         form.setVisible(true);
         return form;
@@ -113,29 +115,28 @@ public class FormRegistro extends javax.swing.JFrame {
 
     private void btnNuevoUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoUsuarioActionPerformed
         // REGISTRAR NUEVO USUARIO
-        LectorArchivos lector = new LectorArchivos();
-        lector.leerUsuarios();
-        int n=Datos.usuarios.length;
-        Usuario[] usuarios= new Usuario[n+1];
-        int ultimoCodigo=Datos.usuarios[n-1].getIdcodigo();
-        
-        StringBuilder sb = new StringBuilder();
-        for(int x=0;x<Datos.usuarios.length;x++){
-            sb.append(Datos.usuarios[x].toCSV()+"\n");
-            usuarios[x]=Datos.usuarios[x];
-        }
-        Usuario usuario=new Usuario((ultimoCodigo+1), txtUsuario.getText().trim(), txtContrasena.getText().trim(), 0);
-        sb.append(usuario.toCSV()+"\n");
-        
-        usuarios[n]=usuario;
-        
-        lector.EscribirArchivo(sb, Archivos.rutaUsuarios);
-        JOptionPane.showMessageDialog(this.form, "USUARIO REGISTRADO");
-        txtUsuario.setText("");
-        txtContrasena.setText("");
-        lector.leerUsuarios();
-        this.dispose();
-        
+//        LectorArchivos lector = new LectorArchivos();
+//        lector.leerUsuarios();
+//        int n = Datos.usuarios.length;
+//        Usuario[] usuarios = new Usuario[n + 1];
+//
+//        StringBuilder sb = new StringBuilder();
+//        for (int x = 0; x < Datos.usuarios.length; x++) {
+//            sb.append(Datos.usuarios[x].toCSV() + "\n");
+//            usuarios[x] = Datos.usuarios[x];
+//        }
+//        Usuario usuario = new Usuario("nombre", "apellido", txtUsuario.getText().trim(), txtContrasena.getText().trim());
+//        sb.append(usuario.toCSV() + "\n");
+//
+//        usuarios[n] = usuario;
+//
+//        lector.EscribirArchivo(sb, Archivos.rutaUsuarios);
+//        JOptionPane.showMessageDialog(this.form, "USUARIO REGISTRADO");
+//        txtUsuario.setText("");
+//        txtContrasena.setText("");
+//        lector.leerUsuarios();
+//        this.dispose();
+
     }//GEN-LAST:event_btnNuevoUsuarioActionPerformed
 
     /**
@@ -169,9 +170,9 @@ public class FormRegistro extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                
+
                 new FormRegistro().setVisible(true);
-                
+
             }
         });
     }

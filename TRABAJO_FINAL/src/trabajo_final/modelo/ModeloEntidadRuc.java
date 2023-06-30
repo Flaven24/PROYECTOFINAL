@@ -1,17 +1,17 @@
 package trabajo_final.modelo;
 
 import javax.swing.table.AbstractTableModel;
-import trabajo_final.clases.DtoOrdenElectronica;
+import trabajo_final.clases.OrdenElectronica;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class ModeloEntidadRuc extends AbstractTableModel {
 
-    private DtoOrdenElectronica[] dtos = new DtoOrdenElectronica[0];
+    private OrdenElectronica[] dtos = new OrdenElectronica[0];
 
-    public ModeloEntidadRuc(DtoOrdenElectronica[] dtos) {
+    public ModeloEntidadRuc(OrdenElectronica[] dtos) {
         super();
         this.dtos = dtos;
     }
@@ -51,11 +51,11 @@ public class ModeloEntidadRuc extends AbstractTableModel {
         return null;
     }
 
-    public DtoOrdenElectronica[] getDtos() {
+    public OrdenElectronica[] getDtos() {
         return dtos;
     }
 
-    public void setDtos(DtoOrdenElectronica[] dtos) {
+    public void setDtos(OrdenElectronica[] dtos) {
         this.dtos = dtos;
     }
 

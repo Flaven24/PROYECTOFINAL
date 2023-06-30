@@ -6,7 +6,7 @@ import trabajo_final.util.NodoEntidad;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class ModeloEntidad extends AbstractTableModel {
 

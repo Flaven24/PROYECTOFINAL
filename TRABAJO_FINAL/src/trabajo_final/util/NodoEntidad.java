@@ -4,7 +4,7 @@ import trabajo_final.clases.Entidad;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class NodoEntidad extends Nodo{
 

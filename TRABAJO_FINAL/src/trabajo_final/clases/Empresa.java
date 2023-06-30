@@ -4,21 +4,16 @@ package trabajo_final.clases;
  *
  * @author Flaven
  */
-public class Entidad extends Empresa {
+public class Empresa {
 
     private String cnombre;
     private String cruc;
-    private Boolean bfiltro;
+
+    public Empresa(){}
     
-    public Entidad(){
-    
-    }
-    
-    public Entidad(String cnombre, String cruc) {
-        super(cnombre, cruc);
+    public Empresa(String cnombre, String cruc) {
         this.cnombre = cnombre;
         this.cruc = cruc;
-        this.bfiltro=false;
     }
 
     public String getCnombre() {
@@ -35,14 +30,6 @@ public class Entidad extends Empresa {
 
     public void setCruc(String cruc) {
         this.cruc = cruc;
-    }
-
-    public Boolean getBfiltro() {
-        return bfiltro;
-    }
-
-    public void setBfiltro(Boolean bfiltro) {
-        this.bfiltro = bfiltro;
     }
 
 }

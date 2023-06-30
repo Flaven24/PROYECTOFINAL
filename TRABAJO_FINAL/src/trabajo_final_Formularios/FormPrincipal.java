@@ -1,13 +1,11 @@
 package trabajo_final_Formularios;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import trabajo_final.clases.Usuario;
 import trabajo_final.datos.Datos;
-import trabajo_final.lectorArchivos.LectorArchivos;
+import trabajo_final.controladorArchivos.LlenadoObjetos;
 
 
 /**
@@ -16,8 +14,7 @@ import trabajo_final.lectorArchivos.LectorArchivos;
  */
 public class FormPrincipal extends javax.swing.JFrame {
 
-    LectorArchivos lectorArchivos= new LectorArchivos();
-    Datos objDatos= new Datos();
+    LlenadoObjetos llenadoObjetos= new LlenadoObjetos();    
     /**
      * Creates new form FormPrincipal
      */
@@ -187,16 +184,18 @@ public class FormPrincipal extends javax.swing.JFrame {
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         // LOGIN        
-        lectorArchivos.leerUsuarios();
-        boolean bintento=false;
-        for(Usuario usuario:objDatos.usuarios){
-            if(usuario.getClogin().equals(txtUsuario.getText())&&usuario.getCcontrasena().equals(txtContrasena.getText())){
-                JOptionPane.showMessageDialog(jFrame1, "ACCESO CORRECTO");
-                this.dispose();
-                FormEstadistica formEstadistica = new FormEstadistica();
-                formEstadistica.setVisible(true);
-                bintento=true;
-            }                
+        
+        boolean bintento=false;                
+        for(Usuario usuario:Datos.getUsuarios()){
+            if(usuario!=null){               
+                if(usuario.getCusuario().equals(txtUsuario.getText())&&usuario.getCcontrasena().equals(txtContrasena.getText())){
+                    JOptionPane.showMessageDialog(jFrame1, "ACCESO CORRECTO");
+                    this.dispose();
+                    FormEstadistica formEstadistica = new FormEstadistica();
+                    formEstadistica.setVisible(true);
+                    bintento=true;
+                }                
+            }
         }
         if(!bintento)
             JOptionPane.showMessageDialog(jFrame1, "Usuario y/o contraseña incorrecta");

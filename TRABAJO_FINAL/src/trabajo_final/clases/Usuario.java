@@ -2,35 +2,44 @@ package trabajo_final.clases;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class Usuario {
-    private int idcodigo ;
-    private String clogin;
+
+    private String cnombre;
+    private String capellido;
+    private String cusuario;
     private String ccontrasena;
-    private int idpersona;
 
-    public Usuario(int idcodigo, String clogin, String ccontrasena, int idpersona) {
-        this.idcodigo = idcodigo;
-        this.clogin = clogin;
+    public Usuario(String cnombre, String capellido, String cusuario, String ccontrasena) {
+        this.cnombre = cnombre;
+        this.capellido = capellido;
+        this.cusuario = cusuario;
         this.ccontrasena = ccontrasena;
-        this.idpersona = idpersona;
-    }   
-    
-    public int getIdcodigo() {
-        return idcodigo;
     }
 
-    public void setIdcodigo(int idcodigo) {
-        this.idcodigo = idcodigo;
+    public String getCnombre() {
+        return cnombre;
     }
 
-    public String getClogin() {
-        return clogin;
+    public void setCnombre(String cnombre) {
+        this.cnombre = cnombre;
     }
 
-    public void setClogin(String clogin) {
-        this.clogin = clogin;
+    public String getCapellido() {
+        return capellido;
+    }
+
+    public void setCapellido(String capellido) {
+        this.capellido = capellido;
+    }
+
+    public String getCusuario() {
+        return cusuario;
+    }
+
+    public void setCusuario(String cusuario) {
+        this.cusuario = cusuario;
     }
 
     public String getCcontrasena() {
@@ -41,16 +50,8 @@ public class Usuario {
         this.ccontrasena = ccontrasena;
     }
 
-    public int getIdpersona() {
-        return idpersona;
+    public String toCSV() {
+        return cnombre + ";" + capellido + ";" + cusuario + ";" + ccontrasena;
     }
 
-    public void setIdpersona(int idpersona) {
-        this.idpersona = idpersona;
-    }
-    
-    public String toCSV(){
-        return idcodigo+";"+clogin+";"+ccontrasena+";"+idpersona;
-    }
-         
 }

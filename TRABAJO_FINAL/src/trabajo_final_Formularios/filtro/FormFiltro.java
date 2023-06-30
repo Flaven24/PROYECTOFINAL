@@ -1,23 +1,46 @@
 package trabajo_final_Formularios.filtro;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import trabajo_final.clases.DtoAcuerdoMarco;
+import trabajo_final.clases.DtoFecha;
+import trabajo_final.clases.Entidad;
+import trabajo_final.clases.Proveedor;
 import trabajo_final.datos.Datos;
+import trabajo_final.estructura.Pila;
+import trabajo_final.estructura.PilaEntidad;
 import trabajo_final.modelo.ModeloEntidad;
 import trabajo_final.util.EntidadNodoInterfaceImpl;
+import trabajo_final_Formularios.FormBusqueda;
+import trabajo_final_Formularios.FormEstEntidadProveedor;
 
 
 /**
  *
- * @author Gutierrez Medina Anthony Kent  <U18100033@utp.edu.pe>
+ * @author author Flaven
  */
 public class FormFiltro extends javax.swing.JFrame {
 
+    private static int tipo;
+    private static FormFiltro form;
     Datos objDatos= new Datos();
     /**
      * Creates new form FormPrincipal
      */
-    public FormFiltro() {
+    private FormFiltro() {
         initComponents();        
       
+    }
+    
+    public static FormFiltro crearVentana(int tipo) {
+        if (form == null) {
+            form = new FormFiltro();
+            FormFiltro.tipo=tipo;
+        }
+        FormFiltro.tipo=tipo;
+        form.setVisible(true);
+        return form;
     }
 
     /**
@@ -40,8 +63,9 @@ public class FormFiltro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblEntidad = new javax.swing.JTable();
+        tblObjeto = new javax.swing.JTable();
         btnFiltro = new javax.swing.JButton();
+        chkTodo = new javax.swing.JCheckBox();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -90,6 +114,11 @@ public class FormFiltro extends javax.swing.JFrame {
         jLabel4.setText("jLabel4");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         BG.setBackground(new java.awt.Color(255, 255, 255));
         BG.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -106,14 +135,14 @@ public class FormFiltro extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 420, Short.MAX_VALUE)
+            .addGap(0, 480, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 60, Short.MAX_VALUE)
         );
 
-        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 60));
+        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 480, 60));
 
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -121,32 +150,40 @@ public class FormFiltro extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
-        BG.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 100, -1));
+        BG.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 350, 100, -1));
 
-        tblEntidad.setModel(new javax.swing.table.DefaultTableModel(
+        tblObjeto.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+
             },
             new String [] {
-                "Entidad"
+                "Filtro", "RUC", "ENTIDAD"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class
+                java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
-        });
-        tblEntidad.setColumnSelectionAllowed(true);
-        jScrollPane1.setViewportView(tblEntidad);
-        tblEntidad.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-        BG.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 370, 250));
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblObjeto.setColumnSelectionAllowed(true);
+        jScrollPane1.setViewportView(tblObjeto);
+        tblObjeto.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        if (tblObjeto.getColumnModel().getColumnCount() > 0) {
+            tblObjeto.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblObjeto.getColumnModel().getColumn(1).setMaxWidth(100);
+        }
+
+        BG.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 440, 250));
 
         btnFiltro.setText("Filtrar");
         btnFiltro.addActionListener(new java.awt.event.ActionListener() {
@@ -154,13 +191,16 @@ public class FormFiltro extends javax.swing.JFrame {
                 btnFiltroActionPerformed(evt);
             }
         });
-        BG.add(btnFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 350, 100, -1));
+        BG.add(btnFiltro, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, 100, -1));
+
+        chkTodo.setText("Seleccionar todo");
+        BG.add(chkTodo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(BG, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,16 +217,181 @@ public class FormFiltro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnFiltroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltroActionPerformed
-        // TODO add your handling code here:
-            //this.dispose();
         
-            ModeloEntidad mEntidad = new ModeloEntidad(objDatos.nodoEntidad);
-            EntidadNodoInterfaceImpl objNodo = new EntidadNodoInterfaceImpl();
-            objNodo.setCabecera(objDatos.nodoEntidad);
-            System.out.println(objNodo.imprimirLista());
-            tblEntidad.setModel(mEntidad);
-            mEntidad.fireTableDataChanged();
+        switch(tipo){
+            case 0:// ENTIDAD
+                FormBusqueda.setPilaEntidadFiltro(new PilaEntidad());
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Entidad entidad =Datos.getPilaEntidad()[count];                                                
+                        FormBusqueda.getPilaEntidadFiltro().Apilar(entidad);                        
+                    }
+                }else{
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            Entidad entidad =Datos.getPilaEntidad()[count];                                                
+                            FormBusqueda.getPilaEntidadFiltro().Apilar(entidad);                        
+                        }
+                    }
+                }
+                this.dispose();
+                break;
+            case 1:// PROVEEDOR
+                FormBusqueda.setPilaProveedorFiltro(new Pila());
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Proveedor proveedor =Datos.getPilaProveedor()[count];                                                
+                        FormBusqueda.getPilaProveedorFiltro().Apilar(proveedor);
+                    }
+                }else{
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            Proveedor proveedor =Datos.getPilaProveedor()[count];                                                
+                            FormBusqueda.getPilaProveedorFiltro().Apilar(proveedor);                        
+                        }
+                    }                    
+                }
+                this.dispose();
+                break;
+            case 2:// FORMALIZACION
+                FormBusqueda.setPilaFechasFiltro(new Pila());
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        DtoFecha fecha =Datos.getPilaFechas()[count];                                                
+                        FormBusqueda.getPilaFechasFiltro().Apilar(fecha);
+                    }
+                }else{
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            DtoFecha fecha =Datos.getPilaFechas()[count];                                                
+                            FormBusqueda.getPilaFechasFiltro().Apilar(fecha);                        
+                        }
+                    }
+                }
+                this.dispose();
+                break;
+            case 3:// ACUERDO
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        DtoAcuerdoMarco acuerdo =Datos.getPilaAcuerdoMarco()[count];                                                
+                        FormBusqueda.getPilaAcuerdoFiltro().Apilar(acuerdo);  
+                    }
+                }else{
+                    FormBusqueda.setPilaAcuerdoFiltro(new Pila());
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            DtoAcuerdoMarco acuerdo =Datos.getPilaAcuerdoMarco()[count];                                                
+                            FormBusqueda.getPilaAcuerdoFiltro().Apilar(acuerdo);                        
+                        }
+                    }
+                }
+                this.dispose();
+                break;
+            case 4:// ENTIDAD ESTADISTICA 1
+                FormEstEntidadProveedor.setPilaEntidadFiltro(new PilaEntidad());
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Entidad entidad =Datos.getPilaEntidad()[count];                                                
+                        FormEstEntidadProveedor.getPilaEntidadFiltro().Apilar(entidad);                        
+                    }
+                }else{
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            Entidad entidad =Datos.getPilaEntidad()[count];                                                
+                            FormEstEntidadProveedor.getPilaEntidadFiltro().Apilar(entidad);                        
+                        }
+                    }
+                }
+                this.dispose();
+                break;
+            case 5:// PROVEEDOR ESTADISTICA 1
+                FormEstEntidadProveedor.setPilaProveedorFiltro(new Pila());
+                if(chkTodo.isSelected()) {
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Proveedor proveedor =Datos.getPilaProveedor()[count];                                                
+                        FormEstEntidadProveedor.getPilaProveedorFiltro().Apilar(proveedor);
+                    }
+                }else{
+                    for (int count = 0; count < tblObjeto.getModel().getRowCount(); count++){
+                        Boolean bfiltro=(Boolean)tblObjeto.getModel().getValueAt(count, 0);
+                        if(bfiltro){
+                            Proveedor proveedor =Datos.getPilaProveedor()[count];                                                
+                            FormEstEntidadProveedor.getPilaProveedorFiltro().Apilar(proveedor);                        
+                        }
+                    }                    
+                }
+                this.dispose();
+                break;
+            default:break;
+        }  
+        
     }//GEN-LAST:event_btnFiltroActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here
+        Object[] columnas =null;
+        Object[][]datos=null;
+        switch(tipo){
+            case 0:// ENTIDAD
+            case 4:// ENTIDAD ESTADISTICA 1
+                datos=new Object[Datos.getPilaEntidad().length][3];
+                for(int x=0;x<Datos.getPilaEntidad().length;x++){
+                    datos[x]=new Object[]{Datos.getPilaEntidad()[x].getBfiltro(),Datos.getPilaEntidad()[x].getCruc(),Datos.getPilaEntidad()[x].getCnombre()};
+                }                
+                columnas = new Object[]{"Filtro", "RUC", "ENTIDAD"};
+                
+                System.out.println(0);
+                break;
+            case 1:// PROVEEDOR
+            case 5:// PROVEEDOR ESTADISTICA 1
+                datos=new Object[Datos.getPilaProveedor().length][3];
+                for(int x=0;x<Datos.getPilaProveedor().length;x++){
+                    datos[x]=new Object[]{Datos.getPilaProveedor()[x].getBfiltro(),Datos.getPilaProveedor()[x].getCruc(),Datos.getPilaProveedor()[x].getCnombre()};
+                }                
+                columnas = new Object[]{"Filtro", "RUC", "PROVEEDOR"};
+                System.out.println(1);
+                break;
+            case 2:// FORMALIZACION
+                datos=new Object[Datos.getPilaFechas().length][3];
+                for(int x=0;x<Datos.getPilaFechas().length;x++){
+                    datos[x]=new Object[]{Datos.getPilaFechas()[x].getBfiltro(),Datos.getPilaFechas()[x].getCfecha()};
+                }                
+                columnas = new Object[]{"Filtro", "FECHA"};
+                System.out.println(2);
+                break;
+            case 3:// ACUERDO
+                datos=new Object[Datos.getPilaAcuerdoMarco().length][3];
+                for(int x=0;x<Datos.getPilaAcuerdoMarco().length;x++){
+                    datos[x]=new Object[]{Datos.getPilaAcuerdoMarco()[x].getBfiltro(),Datos.getPilaAcuerdoMarco()[x].getCacuerdo()};
+                }                
+                columnas = new Object[]{"Filtro", "ACUERDO M."};
+                System.out.println(3);
+                break;           
+            default:break;
+        }
+                
+        tblObjeto.setModel(new javax.swing.table.DefaultTableModel(datos,columnas) {
+            Class[] types = new Class [] {
+                Boolean.class, String.class, String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        if (tblObjeto.getColumnModel().getColumnCount() > 0) {
+            tblObjeto.getColumnModel().getColumn(0).setMaxWidth(50);
+            tblObjeto.getColumnModel().getColumn(1).setMaxWidth(200);
+        }
+        
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments
@@ -231,6 +436,7 @@ public class FormFiltro extends javax.swing.JFrame {
     private javax.swing.JPanel BG;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnFiltro;
+    private javax.swing.JCheckBox chkTodo;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
@@ -240,6 +446,6 @@ public class FormFiltro extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTable tblEntidad;
+    private javax.swing.JTable tblObjeto;
     // End of variables declaration//GEN-END:variables
 }

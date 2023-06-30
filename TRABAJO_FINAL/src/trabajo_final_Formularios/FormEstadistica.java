@@ -113,13 +113,13 @@ public class FormEstadistica extends javax.swing.JFrame {
 
         BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
 
-        btnBusqueda.setText("Buscar");
+        btnBusqueda.setText("Búsqueda");
         btnBusqueda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBusquedaActionPerformed(evt);
             }
         });
-        BG.add(btnBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, 310, -1));
+        BG.add(btnBusqueda, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 140, 310, -1));
 
         btnEntidadesProced.setText("Compras Entidades/Proveedores por Procedimiento");
         btnEntidadesProced.addActionListener(new java.awt.event.ActionListener() {
@@ -127,7 +127,7 @@ public class FormEstadistica extends javax.swing.JFrame {
                 btnEntidadesProcedActionPerformed(evt);
             }
         });
-        BG.add(btnEntidadesProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 310, -1));
+        BG.add(btnEntidadesProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, 310, -1));
 
         btnAcuerdoProced.setText("Compras Acuerdo Marco/Entidad por Procedimiento");
         btnAcuerdoProced.addActionListener(new java.awt.event.ActionListener() {
@@ -135,7 +135,7 @@ public class FormEstadistica extends javax.swing.JFrame {
                 btnAcuerdoProcedActionPerformed(evt);
             }
         });
-        BG.add(btnAcuerdoProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, 310, -1));
+        BG.add(btnAcuerdoProced, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 220, 310, -1));
 
         btnAcuerdoPorDia1.setText("Acuerdo Marco por Día");
         btnAcuerdoPorDia1.addActionListener(new java.awt.event.ActionListener() {
@@ -143,24 +143,25 @@ public class FormEstadistica extends javax.swing.JFrame {
                 btnAcuerdoPorDia1ActionPerformed(evt);
             }
         });
-        BG.add(btnAcuerdoPorDia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 310, -1));
+        BG.add(btnAcuerdoPorDia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 260, 310, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 6, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntidadesProcedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntidadesProcedActionPerformed
-        // TODO add your handling code here:             
         FormEstEntidadProveedor.crearVentana();
     }//GEN-LAST:event_btnEntidadesProcedActionPerformed
 
@@ -171,13 +172,12 @@ public class FormEstadistica extends javax.swing.JFrame {
 
     private void btnBusquedaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBusquedaActionPerformed
         // TODO add your handling code here:
-        FormBusqueda ventanaBusqueda = new FormBusqueda();
-        ventanaBusqueda.setVisible(true);
-                
+        FormBusqueda.crearVentana();                
     }//GEN-LAST:event_btnBusquedaActionPerformed
 
     private void btnAcuerdoPorDia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoPorDia1ActionPerformed
         // TODO add your handling code here:
+        FormEstAcuerdoDia.crearVentana();
     }//GEN-LAST:event_btnAcuerdoPorDia1ActionPerformed
 
     /**

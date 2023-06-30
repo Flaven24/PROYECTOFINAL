@@ -2,7 +2,7 @@ package trabajo_final.util;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public interface NodoInterface {
     public void insertarFinal(Nodo nuevoNodo);

@@ -2,10 +2,17 @@ package trabajo_final_Formularios;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import trabajo_final.clases.DtoOrdenElectronica;
+import javax.swing.ButtonGroup;
+import javax.swing.table.DefaultTableModel;
+import trabajo_final.clases.DtoAcuerdoMarco;
+import trabajo_final.clases.DtoFecha;
+import trabajo_final.clases.Entidad;
+import trabajo_final.clases.OrdenElectronica;
+import trabajo_final.clases.Proveedor;
 import trabajo_final.datos.Datos;
-import trabajo_final.lectorArchivos.LectorArchivos;
-import trabajo_final.modelo.ModeloEntidadRuc;
+import trabajo_final.estructura.Pila;
+import trabajo_final.estructura.PilaEntidad;
+import trabajo_final.estructura.PilaOrdenElectronica;
 import trabajo_final_Formularios.filtro.FormFiltro;
 
 /**
@@ -14,17 +21,66 @@ import trabajo_final_Formularios.filtro.FormFiltro;
  */
 public class FormBusqueda extends javax.swing.JFrame {
 
-    private Datos objDatos = new Datos();
+    private static FormBusqueda form;
+    private static PilaEntidad pilaEntidadFiltro= new PilaEntidad();
+    private static Pila pilaProveedorFiltro= new Pila();
+    private static Pila pilaFechasFiltro= new Pila();
+    private static Pila pilaAcuerdoFiltro= new Pila();
+        
+    private ButtonGroup grupo;
+    private ButtonGroup grupoProcedimiento;
+    private ButtonGroup grupoEstado;
     
-    static void crearVentana() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private Datos objDatos = new Datos();
+    SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+    String primerCampo;
+    
+    public static FormBusqueda crearVentana() {
+        if (form == null) {
+            form = new FormBusqueda();            
+        }
+        form.setVisible(true);
+        return form;
     }
 
+    public static PilaEntidad getPilaEntidadFiltro() {
+        return pilaEntidadFiltro;
+    }
+
+    public static void setPilaEntidadFiltro(PilaEntidad pilaEntidadFiltro) {
+        FormBusqueda.pilaEntidadFiltro = pilaEntidadFiltro;
+    }
+
+    public static Pila getPilaProveedorFiltro() {
+        return pilaProveedorFiltro;
+    }
+
+    public static void setPilaProveedorFiltro(Pila pilaProveedorFiltro) {
+        FormBusqueda.pilaProveedorFiltro = pilaProveedorFiltro;
+    }
+
+    public static Pila getPilaFechasFiltro() {
+        return pilaFechasFiltro;
+    }
+
+    public static void setPilaFechasFiltro(Pila pilaFechasFiltro) {
+        FormBusqueda.pilaFechasFiltro = pilaFechasFiltro;
+    }
+
+    public static Pila getPilaAcuerdoFiltro() {
+        return pilaAcuerdoFiltro;
+    }
+
+    public static void setPilaAcuerdoFiltro(Pila pilaAcuerdoFiltro) {
+        FormBusqueda.pilaAcuerdoFiltro = pilaAcuerdoFiltro;
+    }        
+    
     /**
      * Creates new form FormPrincipal
      */
     public FormBusqueda() {
         initComponents();
+        inicio();
     }
 
     /**
@@ -43,6 +99,8 @@ public class FormBusqueda extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         BG = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -58,21 +116,34 @@ public class FormBusqueda extends javax.swing.JFrame {
         jSeparator5 = new javax.swing.JSeparator();
         txtAcuerdo = new javax.swing.JTextField();
         jSeparator6 = new javax.swing.JSeparator();
-        btnEstado = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblBusqueda = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        btnRUCEntidad = new javax.swing.JButton();
         btnEntidad = new javax.swing.JButton();
-        btnRucProveedor = new javax.swing.JButton();
+        btnProveedor = new javax.swing.JButton();
         btnFormalizacion = new javax.swing.JButton();
         btnAcuerdo = new javax.swing.JButton();
-        btnProcedimiento = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         btnBuscar = new javax.swing.JButton();
         btnExportarCSV = new javax.swing.JButton();
         btnExportarPDF = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        radioAcuerdo = new javax.swing.JRadioButton();
+        radioEntidad = new javax.swing.JRadioButton();
+        radioProveedor = new javax.swing.JRadioButton();
+        radioFecha = new javax.swing.JRadioButton();
+        btnFiltrar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        radioOrdinaria = new javax.swing.JRadioButton();
+        radioGran = new javax.swing.JRadioButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        radioAceptada = new javax.swing.JRadioButton();
+        radioPagada = new javax.swing.JRadioButton();
+        radioResuelta = new javax.swing.JRadioButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -144,13 +215,13 @@ public class FormBusqueda extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel5.setText("Filtros");
-        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 180, -1, -1));
+        BG.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 80, -1, -1));
 
         txtRucEntidad.setForeground(new java.awt.Color(204, 204, 204));
         txtRucEntidad.setBorder(null);
-        BG.add(txtRucEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 180, -1));
+        BG.add(txtRucEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 180, 20));
         BG.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
-        BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 170, -1));
+        BG.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 150, 170, 10));
 
         jPanel1.setBackground(new java.awt.Color(255, 51, 51));
         jPanel1.setForeground(new java.awt.Color(255, 51, 51));
@@ -159,91 +230,97 @@ public class FormBusqueda extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 860, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 860, 60));
+        BG.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1160, 60));
 
         jLabel8.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 12)); // NOI18N
         jLabel8.setText("RUC Proveedor");
-        BG.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
+        BG.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
 
         txtRucProveedor.setForeground(new java.awt.Color(204, 204, 204));
         txtRucProveedor.setBorder(null);
-        BG.add(txtRucProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 180, -1));
-        BG.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 170, -1));
+        BG.add(txtRucProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 180, -1));
+        BG.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 110, 170, 10));
 
         jLabel9.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 12)); // NOI18N
         jLabel9.setText("Fecha Formalización");
-        BG.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 70, 140, 30));
+        BG.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 140, 30));
 
         txtFecha.setForeground(new java.awt.Color(204, 204, 204));
-        txtFecha.setText("dd/mm/yyyy");
         txtFecha.setBorder(null);
-        BG.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 80, 180, -1));
-        BG.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 170, -1));
+        BG.add(txtFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 180, -1));
+        BG.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 170, 10));
 
         txtAcuerdo.setForeground(new java.awt.Color(204, 204, 204));
         txtAcuerdo.setBorder(null);
-        BG.add(txtAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 130, 180, -1));
-        BG.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 170, -1));
-
-        btnEstado.setText("Estado Orden");
-        BG.add(btnEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 390, 125, -1));
+        BG.add(txtAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 140, 180, -1));
+        BG.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 160, 170, -1));
 
         jLabel7.setFont(new java.awt.Font("Lucida Sans", 0, 12)); // NOI18N
         jLabel7.setText("Acuerdo Marco");
-        BG.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 130, -1, -1));
+        BG.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 140, -1, -1));
 
         tblBusqueda.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "RUC PROV.", "RUC ENT.", "TIPO PROC.", "ORDEN ELEC.", "ESTADO ORDEN", "SUBTOTAL", "IGV", "TOTAL"
+                "RUC PROV.", "PROVEEDOR", "RUC ENT.", "ENTIDAD", "TIPO PROC.", "FECHA FOR.", "ACUERDO MAR.", "ESTADO ORDEN", "SUBTOTAL", "IGV", "TOTAL"
             }
         ));
         jScrollPane2.setViewportView(tblBusqueda);
+        if (tblBusqueda.getColumnModel().getColumnCount() > 0) {
+            tblBusqueda.getColumnModel().getColumn(6).setResizable(false);
+            tblBusqueda.getColumnModel().getColumn(8).setResizable(false);
+        }
 
-        BG.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 620, 360));
+        BG.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 970, 490));
 
         jLabel10.setFont(new java.awt.Font("Lucida Sans Typewriter", 0, 12)); // NOI18N
         jLabel10.setText("RUC Entidad");
-        BG.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
-
-        btnRUCEntidad.setText("RUC Entidad");
-        btnRUCEntidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRUCEntidadActionPerformed(evt);
-            }
-        });
-        BG.add(btnRUCEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 210, 125, -1));
+        BG.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
 
         btnEntidad.setText("Entidad");
-        BG.add(btnEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 240, 125, -1));
+        btnEntidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntidadActionPerformed(evt);
+            }
+        });
+        BG.add(btnEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 140, 125, -1));
 
-        btnRucProveedor.setText("RUC Proveedor");
-        BG.add(btnRucProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, 125, -1));
+        btnProveedor.setText("Proveedor");
+        btnProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProveedorActionPerformed(evt);
+            }
+        });
+        BG.add(btnProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 110, 125, -1));
 
         btnFormalizacion.setText("Formalización");
-        BG.add(btnFormalizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 300, 125, -1));
+        btnFormalizacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFormalizacionActionPerformed(evt);
+            }
+        });
+        BG.add(btnFormalizacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 170, 125, -1));
 
         btnAcuerdo.setText("Acuerdo Marco");
-        BG.add(btnAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 330, 125, -1));
-
-        btnProcedimiento.setText("Tipo Procedimiento");
-        BG.add(btnProcedimiento, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 360, 125, -1));
+        btnAcuerdo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAcuerdoActionPerformed(evt);
+            }
+        });
+        BG.add(btnAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 200, 125, -1));
 
         jLabel6.setFont(new java.awt.Font("Lucida Sans", 0, 18)); // NOI18N
         jLabel6.setText("Listado de Compras");
-        BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+        BG.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, -1, -1));
 
         btnBuscar.setText("BUSCAR");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -251,88 +328,730 @@ public class FormBusqueda extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        BG.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 130, -1, -1));
+        BG.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 130, -1, -1));
 
         btnExportarCSV.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnExportarCSV.setText("Exportar CSV");
-        BG.add(btnExportarCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 520, 120, 50));
+        btnExportarCSV.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarCSVActionPerformed(evt);
+            }
+        });
+        BG.add(btnExportarCSV, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 630, 120, 50));
 
         btnExportarPDF.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnExportarPDF.setText("Exportar PDF");
-        BG.add(btnExportarPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 460, 120, 50));
+        btnExportarPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportarPDFActionPerformed(evt);
+            }
+        });
+        BG.add(btnExportarPDF, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 560, 120, 50));
+
+        jLabel1.setText("Ejm: dd-mm-yyy");
+        BG.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 90, -1, -1));
+        BG.add(radioAcuerdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 140, -1, -1));
+        BG.add(radioEntidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, -1, -1));
+        BG.add(radioProveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, -1, -1));
+        BG.add(radioFecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 90, -1, -1));
+
+        btnFiltrar.setBackground(new java.awt.Color(255, 51, 51));
+        btnFiltrar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnFiltrar.setText("Filtrar");
+        btnFiltrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFiltrarActionPerformed(evt);
+            }
+        });
+        BG.add(btnFiltrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 490, 120, 20));
+
+        btnLimpiar.setBackground(new java.awt.Color(204, 204, 204));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        BG.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 520, 120, 20));
+
+        jLabel3.setText("Tipo Procedimiento");
+
+        radioOrdinaria.setText("C. Ordinaria");
+
+        radioGran.setText("Gran Compra");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3)
+                    .addComponent(radioOrdinaria)
+                    .addComponent(radioGran))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioOrdinaria)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioGran)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        BG.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 230, 130, 80));
+
+        jLabel11.setText("Estado Orden");
+
+        radioAceptada.setText("Aceptada");
+
+        radioPagada.setText("Pagada");
+
+        radioResuelta.setText("Resuelta");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11)
+                    .addComponent(radioAceptada)
+                    .addComponent(radioPagada)
+                    .addComponent(radioResuelta))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioAceptada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioPagada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(radioResuelta)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        BG.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(1010, 320, 130, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 808, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(BG, javax.swing.GroupLayout.DEFAULT_SIZE, 1167, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(BG, javax.swing.GroupLayout.PREFERRED_SIZE, 596, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(BG, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void inicio(){
+        grupo = new ButtonGroup();
+        grupo.add(radioProveedor);
+        grupo.add(radioEntidad);
+        grupo.add(radioFecha);
+        grupo.add(radioAcuerdo);            
+        grupoProcedimiento = new ButtonGroup();
+        grupoProcedimiento.add(radioGran);
+        grupoProcedimiento.add(radioOrdinaria);
+        grupoEstado = new ButtonGroup();
+        grupoEstado.add(radioAceptada);
+        grupoEstado.add(radioPagada);
+        grupoEstado.add(radioResuelta);
+    } 
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        ModeloEntidadRuc mRucEntidad = new ModeloEntidadRuc(new DtoOrdenElectronica[0]);
-        DtoOrdenElectronica[] general = LectorArchivos.getGeneral();
-        DtoOrdenElectronica[] filtrado;
-        int tamano=0;
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        PilaOrdenElectronica pila = new PilaOrdenElectronica();
+        pila.setPilaOrden(Datos.getPilaOrdenElectronica());                                
+        DefaultTableModel model = new DefaultTableModel();
+        tblBusqueda.setModel(model);
+        model.addColumn("RUC PROV.");
+        model.addColumn("PROVEEDOR");
+        model.addColumn("RUC ENT.");
+        model.addColumn("ENTIDAD");
+        model.addColumn("TIPO PROC.");
+        model.addColumn("FECHA FOR.");
+        model.addColumn("ACUERDO MAR.");
+        model.addColumn("ESTADO ORDEN");
+        model.addColumn("SUBTOTAL");
+        model.addColumn("IGV");
+        model.addColumn("TOTAL");
         
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         String RucEntidad=txtRucEntidad.getText();
         String RucProveedor=txtRucProveedor.getText();
-        String Fecha= txtFecha.getText();
-//        try{
-//            Fecha=format.parse();
-//            System.out.println(Fecha);
-//        }catch(Exception ex){
-//        }
+        Date Fecha= new Date();
+        try{
+            Fecha=format.parse(txtFecha.getText());            
+        }catch(Exception ex){
+            //ex.printStackTrace();
+        }
         String Acuerdo=txtAcuerdo.getText();
-        
-        for(DtoOrdenElectronica dto :general){   
-            System.out.println();
-            //04/01/2022           
-            if((dto.getRUC_ENTIDAD().contains(RucEntidad)&&!RucEntidad.isEmpty())
-                ||(dto.getRUC_PROVEEDOR().contains(RucProveedor)&&!RucProveedor.isEmpty())                
-                ||(format.format(dto.getFECHA_FORMALIZACIÓN()).contains(Fecha)&&!Fecha.isEmpty() )
-                ||(dto.getACUERDO_MARCO().contains(Acuerdo)&&!Acuerdo.isEmpty())){                
-                tamano++;            
-            }
-        }        
-        filtrado= new DtoOrdenElectronica[tamano];
-        
-        int contador=0;
-        for(DtoOrdenElectronica dto :general){
-            
-             if((dto.getRUC_ENTIDAD().contains(RucEntidad)&&!RucEntidad.isEmpty())
-                ||(dto.getRUC_PROVEEDOR().contains(RucProveedor)&&!RucProveedor.isEmpty())                
-                ||(format.format(dto.getFECHA_FORMALIZACIÓN()).contains(Fecha)&&!Fecha.isEmpty() )
-                ||(dto.getACUERDO_MARCO().contains(Acuerdo)&&!Acuerdo.isEmpty())){
-                filtrado[contador]=dto;
-                contador++;     
+
+        PilaOrdenElectronica pilaTemp = new PilaOrdenElectronica();
+        if(radioProveedor.isSelected()){
+            pilaTemp.setPilaOrden(pila.buscarPorRucProveedor(RucProveedor).getPilaOrden());
+            for(int x=0;x<pilaTemp.getTOPE();x++){            
+                model.addRow(new Object[]{pilaTemp.getPilaOrden()[x].getRUC_PROVEEDOR(),pilaTemp.getPilaOrden()[x].getPROVEEDOR(),pilaTemp.getPilaOrden()[x].getRUC_ENTIDAD(),pilaTemp.getPilaOrden()[x].getENTIDAD(),pilaTemp.getPilaOrden()[x].getTIPO_PROCEDIMIENTO(),
+                    format.format(pilaTemp.getPilaOrden()[x].getFECHA_FORMALIZACIÓN()),pilaTemp.getPilaOrden()[x].getACUERDO_MARCO(),pilaTemp.getPilaOrden()[x].getESTADO_ORDEN_ELECTRONICA(),
+                    pilaTemp.getPilaOrden()[x].getSUB_TOTAL(),pilaTemp.getPilaOrden()[x].getIGV(),pilaTemp.getPilaOrden()[x].getTOTAL()});
             }
         }
-        
-        mRucEntidad = new ModeloEntidadRuc(filtrado);
-        tblBusqueda.setModel(mRucEntidad);
-        mRucEntidad.fireTableDataChanged();        
-        
+        if(radioEntidad.isSelected()){
+            pilaTemp.setPilaOrden(pila.buscarPorRucEntidad(RucEntidad).getPilaOrden());
+            for(int x=0;x<pilaTemp.getTOPE();x++){            
+                model.addRow(new Object[]{pilaTemp.getPilaOrden()[x].getRUC_PROVEEDOR(),pilaTemp.getPilaOrden()[x].getPROVEEDOR(),pilaTemp.getPilaOrden()[x].getRUC_ENTIDAD(),pilaTemp.getPilaOrden()[x].getENTIDAD(),pilaTemp.getPilaOrden()[x].getTIPO_PROCEDIMIENTO(),
+                    format.format(pilaTemp.getPilaOrden()[x].getFECHA_FORMALIZACIÓN()),pilaTemp.getPilaOrden()[x].getACUERDO_MARCO(),pilaTemp.getPilaOrden()[x].getESTADO_ORDEN_ELECTRONICA(),
+                    pilaTemp.getPilaOrden()[x].getSUB_TOTAL(),pilaTemp.getPilaOrden()[x].getIGV(),pilaTemp.getPilaOrden()[x].getTOTAL()});
+            }
+        }
+        if(radioFecha.isSelected()){
+            pilaTemp.setPilaOrden(pila.buscarPorFecha(Fecha).getPilaOrden());
+            for(int x=0;x<pilaTemp.getTOPE();x++){            
+                model.addRow(new Object[]{pilaTemp.getPilaOrden()[x].getRUC_PROVEEDOR(),pilaTemp.getPilaOrden()[x].getPROVEEDOR(),pilaTemp.getPilaOrden()[x].getRUC_ENTIDAD(),pilaTemp.getPilaOrden()[x].getENTIDAD(),pilaTemp.getPilaOrden()[x].getTIPO_PROCEDIMIENTO(),
+                    format.format(pilaTemp.getPilaOrden()[x].getFECHA_FORMALIZACIÓN()),pilaTemp.getPilaOrden()[x].getACUERDO_MARCO(),pilaTemp.getPilaOrden()[x].getESTADO_ORDEN_ELECTRONICA(),
+                    pilaTemp.getPilaOrden()[x].getSUB_TOTAL(),pilaTemp.getPilaOrden()[x].getIGV(),pilaTemp.getPilaOrden()[x].getTOTAL()});
+            }
+        }
+        if(radioAcuerdo.isSelected()){
+            pilaTemp.setPilaOrden(pila.buscarPorAcuerdo(Acuerdo).getPilaOrden());
+            for(int x=0;x<pilaTemp.getTOPE();x++){            
+                model.addRow(new Object[]{pilaTemp.getPilaOrden()[x].getRUC_PROVEEDOR(),pilaTemp.getPilaOrden()[x].getPROVEEDOR(),pilaTemp.getPilaOrden()[x].getRUC_ENTIDAD(),pilaTemp.getPilaOrden()[x].getENTIDAD(),pilaTemp.getPilaOrden()[x].getTIPO_PROCEDIMIENTO(),
+                    format.format(pilaTemp.getPilaOrden()[x].getFECHA_FORMALIZACIÓN()),pilaTemp.getPilaOrden()[x].getACUERDO_MARCO(),pilaTemp.getPilaOrden()[x].getESTADO_ORDEN_ELECTRONICA(),
+                    pilaTemp.getPilaOrden()[x].getSUB_TOTAL(),pilaTemp.getPilaOrden()[x].getIGV(),pilaTemp.getPilaOrden()[x].getTOTAL()});
+            }
+        }
+                                
+        tblBusqueda.setModel(model);
     }//GEN-LAST:event_btnBuscarActionPerformed
+              
+    private void btnEntidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntidadActionPerformed
+        FormFiltro.crearVentana(0);
+    }//GEN-LAST:event_btnEntidadActionPerformed
 
-    private void btnRUCEntidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRUCEntidadActionPerformed
-        // TODO add your handling code here:
-        new FormFiltro().setVisible(true);
-    }//GEN-LAST:event_btnRUCEntidadActionPerformed
+    private void btnProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedorActionPerformed
+        FormFiltro.crearVentana(1);
+    }//GEN-LAST:event_btnProveedorActionPerformed
 
+    private void btnFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFiltrarActionPerformed
+        DefaultTableModel model = new DefaultTableModel();        
+        tblBusqueda.setModel(model);
+        model.addColumn("RUC PROV.");
+        model.addColumn("PROVEEDOR");
+        model.addColumn("RUC ENT.");
+        model.addColumn("ENTIDAD");
+        model.addColumn("TIPO PROC.");
+        model.addColumn("FECHA FOR.");
+        model.addColumn("ACUERDO MAR.");
+        model.addColumn("ESTADO ORDEN");
+        model.addColumn("SUBTOTAL");
+        model.addColumn("IGV");
+        model.addColumn("TOTAL");
+        
+        // Pila de ordenes                        
+        PilaOrdenElectronica pilaFiltrada = validarCamposFiltro();        
+        PilaOrdenElectronica nuevaPilaFiltrada = objetoFiltro(pilaFiltrada);
+        // FILTRO PARA HACER UN AND ENTRE TODOS LOS OBJETOS, FALTAN LOS RADIO BUTTONS
+        for(OrdenElectronica orden :nuevaPilaFiltrada.getPilaOrden()){
+            if(orden!=null)                
+                model.addRow(new Object[]{orden.getRUC_PROVEEDOR(),orden.getPROVEEDOR(),orden.getRUC_ENTIDAD(),orden.getENTIDAD(),orden.getTIPO_PROCEDIMIENTO(),
+                    format.format(orden.getFECHA_FORMALIZACIÓN()),orden.getACUERDO_MARCO(),orden.getESTADO_ORDEN_ELECTRONICA(),
+                    orden.getSUB_TOTAL(),orden.getIGV(),orden.getTOTAL()});
+        }
+        tblBusqueda.setModel(model);
+    }//GEN-LAST:event_btnFiltrarActionPerformed
+
+    private PilaOrdenElectronica validarCamposFiltro(){
+        // PRIMER FILTRO
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        boolean bprimerfiltro=false;
+        primerCampo="";
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            // ENTIDAD
+            if(pilaEntidadFiltro.getTOPE()>0){
+                for(int x =0; x<pilaEntidadFiltro.getTOPE();x++){
+                    Entidad entidad=pilaEntidadFiltro.getPilaOrden()[x];
+                    if(orden!=null){
+                        if(orden.getRUC_ENTIDAD().contains(entidad.getCruc())){
+                            pilaFiltrada.Apilar(orden);                            
+                            bprimerfiltro=true;                            
+                        }
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="ENT";
+            return pilaFiltrada;
+        }
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            // PROVEEDOR
+            if(pilaProveedorFiltro.getTOPE()>0){                
+                for(int x =0; x<pilaProveedorFiltro.getTOPE();x++){
+                    Proveedor proveedor=(Proveedor)pilaProveedorFiltro.getPila()[x];
+                    if(orden!=null){
+                        if(orden.getRUC_PROVEEDOR().contains(proveedor.getCruc())){
+                            bprimerfiltro=true;
+                            pilaFiltrada.Apilar(orden);
+                        }
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="PRO";
+            return pilaFiltrada;
+        }
+        // FECHAS
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(pilaFechasFiltro.getTOPE()>0){                
+                for(int x =0; x<pilaFechasFiltro.getTOPE();x++){
+                    DtoFecha fecha=(DtoFecha)pilaFechasFiltro.getPila()[x];
+                    if(orden!=null){
+                        if(format.format(orden.getFECHA_FORMALIZACIÓN()).contains(fecha.getCfecha())){
+                            bprimerfiltro=true;
+                            pilaFiltrada.Apilar(orden);                                              
+                        }
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="FEC";
+            return pilaFiltrada;
+        }
+        // ACUERDO MARCO            
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(pilaAcuerdoFiltro.getTOPE()>0){               
+                for(int x =0; x<pilaAcuerdoFiltro.getTOPE();x++){
+                    DtoAcuerdoMarco acuerdo=(DtoAcuerdoMarco)pilaAcuerdoFiltro.getPila()[x];
+                    if(orden!=null){
+                        if(orden.getACUERDO_MARCO().contains(acuerdo.getCacuerdo())){
+                            bprimerfiltro=true;
+                            pilaFiltrada.Apilar(orden);                                              
+                        }
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="ACU";
+            return pilaFiltrada;
+        }
+        // TIPO PROCEDIMIENTO
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(radioGran.isSelected()){                 
+                if(orden!=null){
+                    if(orden.getTIPO_PROCEDIMIENTO().contains("Gran Compra")){
+                        bprimerfiltro=true;
+                        pilaFiltrada.Apilar(orden);                                              
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="GRN";
+            return pilaFiltrada;
+        }
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(radioOrdinaria.isSelected()){
+                if(orden!=null){
+                    if(orden.getTIPO_PROCEDIMIENTO().contains("Compra ordinaria")){
+                        bprimerfiltro=true;
+                        pilaFiltrada.Apilar(orden);                                              
+                    }
+                }
+            }  
+        }
+        if(bprimerfiltro){
+            primerCampo="ORD";
+            return pilaFiltrada;
+        }
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            // ESTADO ORDEN
+            if(radioAceptada.isSelected()){
+                if(orden!=null){
+                    if(orden.getESTADO_ORDEN_ELECTRONICA().contains("ACEPTADA")){
+                        bprimerfiltro=true;
+                        pilaFiltrada.Apilar(orden);                                              
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="ACE";
+            return pilaFiltrada;
+        }
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(radioPagada.isSelected()){
+                if(orden!=null){
+                    if(orden.getESTADO_ORDEN_ELECTRONICA().contains("PAGADA")){
+                        bprimerfiltro=true;
+                        pilaFiltrada.Apilar(orden);                                              
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="PAG";
+            return pilaFiltrada;
+        }
+        for(OrdenElectronica orden :Datos.getOrdenFiltrada()){
+            if(radioResuelta.isSelected()){
+                if(orden!=null){
+                    if(orden.getESTADO_ORDEN_ELECTRONICA().contains("RESUELTA")){
+                        bprimerfiltro=true;
+                        pilaFiltrada.Apilar(orden);                                              
+                    }
+                }
+            }
+        }
+        if(bprimerfiltro){
+            primerCampo="RES";
+            return pilaFiltrada;
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica objetoFiltro(PilaOrdenElectronica pila){        
+        PilaOrdenElectronica retorno = new PilaOrdenElectronica();
+        System.out.println(primerCampo);
+        switch(primerCampo){
+            case "ENT":
+                retorno=filtroEntidad(pila.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());          
+            break;
+            case "PRO":
+                retorno=filtroProveedor(pila.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "FEC":
+                retorno=filtroFecha(pila.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "ACU":
+                retorno=filtroAcuerdo(pila.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "GRN":                
+                retorno=filtroGran(pila.getPilaOrden());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());                
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "ORD":
+                retorno=filtroOrdinaria(pila.getPilaOrden());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());                
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "ACE":
+                retorno=filtroAceptada(pila.getPilaOrden());
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "PAG":
+                retorno=filtroPagada(pila.getPilaOrden());                
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                if(radioResuelta.isSelected())
+                    retorno=filtroResuelta(retorno.getPilaOrden());
+            break;
+            case "RES":
+                retorno=filtroResuelta(pila.getPilaOrden());            
+                if(pilaEntidadFiltro.getTOPE()>0)
+                    retorno=filtroEntidad(retorno.getPilaOrden() ,pilaEntidadFiltro.getPilaOrden());
+                if(pilaProveedorFiltro.getTOPE()>0)
+                    retorno=filtroProveedor(retorno.getPilaOrden() , pilaProveedorFiltro.getPila());
+                if(pilaFechasFiltro.getTOPE()>0)
+                    retorno=filtroFecha(retorno.getPilaOrden() , pilaFechasFiltro.getPila());
+                if(pilaAcuerdoFiltro.getTOPE()>0)
+                    retorno=filtroAcuerdo(retorno.getPilaOrden() , pilaAcuerdoFiltro.getPila());
+                if(radioOrdinaria.isSelected())
+                    retorno=filtroOrdinaria(retorno.getPilaOrden());
+                if(radioGran.isSelected())
+                    retorno=filtroGran(retorno.getPilaOrden());
+                if(radioPagada.isSelected())
+                    retorno=filtroPagada(retorno.getPilaOrden());
+                if(radioAceptada.isSelected())
+                    retorno=filtroAceptada(retorno.getPilaOrden());
+                    
+            break;
+            default:break;
+        }
+        return retorno;
+    }
+    
+    private void btnFormalizacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFormalizacionActionPerformed
+        FormFiltro.crearVentana(2);
+    }//GEN-LAST:event_btnFormalizacionActionPerformed
+
+    private void btnAcuerdoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAcuerdoActionPerformed
+        FormFiltro.crearVentana(3);
+    }//GEN-LAST:event_btnAcuerdoActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        DefaultTableModel model = new DefaultTableModel();        
+        
+        tblBusqueda.setModel(model);
+        model.addColumn("RUC PROV.");
+        model.addColumn("PROVEEDOR");
+        model.addColumn("RUC ENT.");
+        model.addColumn("ENTIDAD");
+        model.addColumn("TIPO PROC.");
+        model.addColumn("FECHA FOR.");
+        model.addColumn("ACUERDO MAR.");
+        model.addColumn("ESTADO ORDEN");
+        model.addColumn("SUBTOTAL");
+        model.addColumn("IGV");
+        model.addColumn("TOTAL");;
+        
+        pilaEntidadFiltro= new PilaEntidad();
+        pilaProveedorFiltro= new Pila();
+        pilaAcuerdoFiltro= new Pila();
+        pilaFechasFiltro= new Pila();
+        tblBusqueda.setModel(model);
+                
+        grupoEstado.clearSelection();
+        grupoProcedimiento.clearSelection();
+        primerCampo="";
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnExportarCSVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarCSVActionPerformed
+        
+    }//GEN-LAST:event_btnExportarCSVActionPerformed
+
+    private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
+        
+    }//GEN-LAST:event_btnExportarPDFActionPerformed
+
+    private PilaOrdenElectronica filtroEntidad(OrdenElectronica[] pila,Entidad[] entidades){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            for(Entidad entidad:entidades){                
+                if(orden!=null&&entidad!=null&&orden.getRUC_ENTIDAD().contains(entidad.getCruc())){
+                    pilaFiltrada.Apilar(orden);
+                }
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroProveedor(OrdenElectronica[] pila,Object[] proveedores){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            for(Object obj:proveedores){
+                Proveedor proveedor=(Proveedor)obj;
+                if(orden!=null&&proveedor!=null&&orden.getRUC_PROVEEDOR().contains(proveedor.getCruc())){
+                    pilaFiltrada.Apilar(orden);
+                }
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroFecha(OrdenElectronica[] pila,Object[] fechas){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            for(Object obj:fechas){
+                DtoFecha fecha=(DtoFecha)obj;
+                if(orden!=null&&fecha!=null&&format.format(orden.getFECHA_FORMALIZACIÓN()).contains(fecha.getCfecha())){
+                    pilaFiltrada.Apilar(orden);
+                }
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroAcuerdo(OrdenElectronica[] pila,Object[] acuerdos){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            for(Object obj:acuerdos){
+                DtoAcuerdoMarco acuerdo=(DtoAcuerdoMarco)obj;
+                if(orden!=null&&acuerdo!=null&&orden.getACUERDO_MARCO().contains(acuerdo.getCacuerdo())){
+                    pilaFiltrada.Apilar(orden);
+                }
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroOrdinaria(OrdenElectronica[] pila){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            if(orden!=null&&orden.getTIPO_PROCEDIMIENTO().contains("Compra ordinaria")){
+                pilaFiltrada.Apilar(orden);
+                
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroGran(OrdenElectronica[] pila){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            if(orden!=null&&orden.getTIPO_PROCEDIMIENTO().contains("Gran Compra")){
+                pilaFiltrada.Apilar(orden);                
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroPagada(OrdenElectronica[] pila){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            if(orden!=null&&orden.getESTADO_ORDEN_ELECTRONICA().contains("PAGADA")){
+                pilaFiltrada.Apilar(orden);                
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroAceptada(OrdenElectronica[] pila){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            if(orden!=null&&orden.getESTADO_ORDEN_ELECTRONICA().contains("ACEPTADA")){
+                pilaFiltrada.Apilar(orden);                
+            }
+        }
+        return pilaFiltrada;
+    }
+    
+    private PilaOrdenElectronica filtroResuelta(OrdenElectronica[] pila){
+        PilaOrdenElectronica pilaFiltrada = new PilaOrdenElectronica();
+        for(OrdenElectronica orden:pila){
+            if(orden!=null&&orden.getESTADO_ORDEN_ELECTRONICA().contains("RESUELTA")){
+                pilaFiltrada.Apilar(orden);                
+            }
+        }
+        return pilaFiltrada;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -374,19 +1093,23 @@ public class FormBusqueda extends javax.swing.JFrame {
     private javax.swing.JButton btnAcuerdo;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEntidad;
-    private javax.swing.JButton btnEstado;
     private javax.swing.JButton btnExportarCSV;
     private javax.swing.JButton btnExportarPDF;
+    private javax.swing.JButton btnFiltrar;
     private javax.swing.JButton btnFormalizacion;
-    private javax.swing.JButton btnProcedimiento;
-    private javax.swing.JButton btnRUCEntidad;
-    private javax.swing.JButton btnRucProveedor;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnProveedor;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JFrame jFrame2;
     private javax.swing.JFrame jFrame3;
     private javax.swing.JFrame jFrame4;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -394,6 +1117,8 @@ public class FormBusqueda extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
@@ -402,6 +1127,15 @@ public class FormBusqueda extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JTable jTable1;
+    private javax.swing.JRadioButton radioAceptada;
+    private javax.swing.JRadioButton radioAcuerdo;
+    private javax.swing.JRadioButton radioEntidad;
+    private javax.swing.JRadioButton radioFecha;
+    private javax.swing.JRadioButton radioGran;
+    private javax.swing.JRadioButton radioOrdinaria;
+    private javax.swing.JRadioButton radioPagada;
+    private javax.swing.JRadioButton radioProveedor;
+    private javax.swing.JRadioButton radioResuelta;
     private javax.swing.JTable tblBusqueda;
     private javax.swing.JTextField txtAcuerdo;
     private javax.swing.JTextField txtFecha;

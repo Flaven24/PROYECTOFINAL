@@ -2,23 +2,14 @@ package trabajo_final.clases;
 
 /**
  *
- * @author Acer
+ * @author Flaven
  */
 public class TipoProcedimiento {
-    private int idtipo;
-    private String cnomtipo;
 
-    public TipoProcedimiento(int idtipo, String cnomtipo) {
-        this.idtipo = idtipo;
+    private String cnomtipo;    
+        
+    public TipoProcedimiento(String cnomtipo) {
         this.cnomtipo = cnomtipo;
-    }
-
-    public int getIdtipo() {
-        return idtipo;
-    }
-
-    public void setIdtipo(int idtipo) {
-        this.idtipo = idtipo;
     }
 
     public String getCnomtipo() {
@@ -28,5 +19,5 @@ public class TipoProcedimiento {
     public void setCnomtipo(String cnomtipo) {
         this.cnomtipo = cnomtipo;
     }
-    
+
 }

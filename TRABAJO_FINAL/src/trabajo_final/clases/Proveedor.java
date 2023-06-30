@@ -4,17 +4,13 @@ package trabajo_final.clases;
  *
  * @author Flaven
  */
-public class Entidad extends Empresa {
+public class Proveedor extends Empresa {
 
     private String cnombre;
     private String cruc;
     private Boolean bfiltro;
-    
-    public Entidad(){
-    
-    }
-    
-    public Entidad(String cnombre, String cruc) {
+
+    public Proveedor(String cnombre, String cruc) {
         super(cnombre, cruc);
         this.cnombre = cnombre;
         this.cruc = cruc;
@@ -43,6 +39,6 @@ public class Entidad extends Empresa {
 
     public void setBfiltro(Boolean bfiltro) {
         this.bfiltro = bfiltro;
-    }
+    }    
 
 }
